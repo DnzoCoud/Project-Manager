@@ -10,6 +10,15 @@
   "monorepo": true,
   "root": "apps/project-manager-api-gateaway",
   "projects": {
+    "contracts": {
+      "type": "library",
+      "root": "libs/contracts",
+      "entryFile": "index",
+      "sourceRoot": "libs/contracts/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/contracts/tsconfig.lib.json"
+      }
+    },
     "project-manager-api-gateaway": {
       "type": "application",
       "root": "apps/project-manager-api-gateaway",
