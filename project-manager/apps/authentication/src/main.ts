@@ -1,16 +1,15 @@
 import { NestFactory } from '@nestjs/core';
+import { AuthenticationModule } from './authentication.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-
-import { UsersModule } from './users.module';
 import { MICROSERVICE_PORTS } from '@app/contracts/microservices-ports';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    UsersModule,
+    AuthenticationModule,
     {
       transport: Transport.TCP,
       options: {
-        port: MICROSERVICE_PORTS.USERS_MICROSERVICE,
+        port: MICROSERVICE_PORTS.AUTH_MICROSERVICE,
       },
     },
   );
