@@ -9,7 +9,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @MessagePattern(USERS_PATTERS.FIND_ALL)
-  findAll() {
+  async findAll() {
     return this.usersService.findAll();
   }
 

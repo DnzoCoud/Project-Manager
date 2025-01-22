@@ -9,9 +9,9 @@ import {
 } from 'typeorm';
 import { Role } from './role.entity';
 
-@Entity('users')
+@Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()

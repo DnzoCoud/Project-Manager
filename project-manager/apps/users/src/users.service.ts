@@ -1,11 +1,10 @@
+import { CreateUserDto } from '@app/contracts/users/create-user.dto';
 import { Injectable } from '@nestjs/common';
-import { UserDto } from '@app/contracts/users/user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { DuplicatedResourceException } from 'libs/exceptions/duplicated.exception';
 import { Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
-import { CreateUserDto } from '@app/contracts/users/create-user.dto';
-import { DuplicatedResourceException } from 'libs/exceptions/duplicated.exception';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -16,17 +15,8 @@ export class UsersService {
     private readonly rolesRepository: Repository<Role>,
   ) {}
 
-  private users: UserDto[] = [
-    {
-      id: 'sadasdasdasdas',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'sasdasdasd',
-    },
-  ];
-
-  findAll() {
-    return this.users;
+  async findAll() {
+    return await this.usersRepository.find();
   }
 
   async storeUser(createUserDto: CreateUserDto) {
@@ -43,7 +33,7 @@ export class UsersService {
       password: createUserDto.password,
     });
 
-    return this.usersRepository.save(newUser);
+    return await this.usersRepository.save(newUser);
   }
 
   findByEmail(email: string) {
