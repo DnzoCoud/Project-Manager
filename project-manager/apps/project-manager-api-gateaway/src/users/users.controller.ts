@@ -25,9 +25,16 @@ export class UsersController extends BaseController {
   }
 
   @Post()
-  store(@Body() createUserDto: CreateUserDto) {
+  async store(@Body() createUserDto: CreateUserDto) {
     try {
-      return this.usersService.store(createUserDto);
-    } catch (error) {}
+      return this.successResponse(
+        {
+          user: await this.usersService.store(createUserDto),
+        },
+        'Usuario creado correctamente.',
+      );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
   }
 }
