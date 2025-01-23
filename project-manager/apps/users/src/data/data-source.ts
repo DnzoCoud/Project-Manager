@@ -5,7 +5,7 @@ import { join } from 'path';
 
 const UserDataSource = new DataSource({
   type: 'sqlite',
-  database: join(__dirname, 'users.sqlite'),
+  database: join(__dirname, 'data/users.sqlite'),
   entities: [User, Role],
   migrations: [join(__dirname, '../migrations/*.{ts,js}')],
   synchronize: true,
