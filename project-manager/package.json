@@ -18,9 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/project-manager/test/jest-e2e.json",
-    "clitypeorm": "npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js",
     "users:migrate": "npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate apps/users/src/migrations/InitialMigration -d apps/users/src/data/data-source.ts",
-    "users:migrate:run": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d apps/users/src/data/data-source.ts"
+    "users:migrate:run": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d apps/users/src/data/data-source.ts",
+    "projects:migrate": "npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate apps/projects/src/migrations/InitialMigration -d apps/projects/src/data/data-source.ts",
+    "projects:migrate:run": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d apps/projects/src/data/data-source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.4",
