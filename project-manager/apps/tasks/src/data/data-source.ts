@@ -4,7 +4,7 @@ import { Task } from '../entities/task.entity';
 
 const TaskDataSource = new DataSource({
   type: 'sqlite',
-  database: join(__dirname, 'data/tasks.sqlite'),
+  database: join(__dirname, '/tasks.sqlite'),
   entities: [Task],
   migrations: [join(__dirname, '../migrations/*.{ts,js}')],
   synchronize: true,

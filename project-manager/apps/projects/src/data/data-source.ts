@@ -4,7 +4,7 @@ import { Project } from '../entities/project.entity';
 
 const ProjectDataSource = new DataSource({
   type: 'sqlite',
-  database: join(__dirname, 'data/projects.sqlite'),
+  database: join(__dirname, '/projects.sqlite'),
   entities: [Project],
   migrations: [join(__dirname, '../migrations/*.{ts,js}')],
   synchronize: true,
