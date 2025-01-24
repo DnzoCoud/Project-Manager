@@ -15,7 +15,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
     set({
       authUser: authData.user,
     });
-    localStorage.setItem(API_CONSTANTS.LOCAL_TOKEN_NAME, authData.accessToken);
+    document.cookie = `${API_CONSTANTS.LOCAL_TOKEN_NAME}=${authData.accessToken}; path=/`;
   },
   clearAuthData: () => {
     set({ authUser: null });

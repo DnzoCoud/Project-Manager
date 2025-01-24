@@ -1,12 +1,12 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import { Link } from "@heroui/link";
 import clsx from "clsx";
+import { Metadata, Viewport } from "next";
 
 import { Providers } from "./providers";
 
-import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
+import { siteConfig } from "@/config/site";
+import MainToast from "@/components/toast/main-toast";
 
 export const metadata: Metadata = {
   title: {
@@ -42,6 +42,7 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           {children}
+          <MainToast />
         </Providers>
       </body>
     </html>
