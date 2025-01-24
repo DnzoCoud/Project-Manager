@@ -1,9 +1,9 @@
 /**
- * Simularemos un .env con esta constante
+ * Simulacion de un .env con esta constante
  */
 export const MICROSERVICE_PORTS = {
-  AUTH_MICROSERVICE: 3001,
-  USERS_MICROSERVICE: 3002,
-  PROJECTS_MICROSERVICE: 3003,
-  TASKS_MICROSERVICE: 3004,
+  AUTH_MICROSERVICE: 63001,
+  USERS_MICROSERVICE: 6002,
+  PROJECTS_MICROSERVICE: 6003,
+  TASKS_MICROSERVICE: 6004,
 };
