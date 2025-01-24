@@ -30,4 +30,8 @@ export class TasksService {
       }),
     );
   }
+
+  async deleteTask(taskId: number) {
+    await firstValueFrom(this.tasksClient.send(TASKS_PATTERS.DELETE, taskId));
+  }
 }

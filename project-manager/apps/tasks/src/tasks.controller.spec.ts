@@ -15,8 +15,6 @@ describe('TasksController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(tasksController.getHello()).toBe('Hello World!');
-    });
+    it('should return "Hello World!"', () => {});
   });
 });

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { BaseController } from '../common/base-controller';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
@@ -50,6 +58,16 @@ export class TasksController extends BaseController {
         },
         'Tarea actualizada correctamente.',
       );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
+
+  @Delete(':taskId')
+  async deleteTask(@Param('taskId') taskId: number) {
+    try {
+      await this.taskService.deleteTask(taskId);
+      return this.successResponse(null, 'Tarea eliminada correctamente.');
     } catch (error) {
       return this.errorResponse(error);
     }

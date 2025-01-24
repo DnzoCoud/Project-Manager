@@ -41,8 +41,9 @@ export class TasksController {
     return newTask;
   }
 
-  @MessagePattern(TASKS_PATTERS.UPDATE)
+  @MessagePattern(TASKS_PATTERS.DELETE)
   async deleteTask(taskId: number) {
     await this.tasksService.deleteTask(taskId);
+    return true;
   }
 }
