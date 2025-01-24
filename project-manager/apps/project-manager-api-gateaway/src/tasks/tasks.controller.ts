@@ -31,6 +31,19 @@ export class TasksController extends BaseController {
       return this.errorResponse(error);
     }
   }
+  @Get('project/:projectId')
+  async findAllByProject(@Param('projectId') projectId: number) {
+    try {
+      return this.successResponse(
+        {
+          tasks: await this.taskService.findTasksByProject(projectId),
+        },
+        'Lista de tareas por proyecto',
+      );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
 
   @Post()
   async store(@Body() createTaskDto: CreateTaskDto) {
