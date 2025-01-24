@@ -1,5 +1,6 @@
 import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
 import { TASKS_PATTERS } from '@app/contracts/tasks/tasks.patterns';
+import { UpdateTaskDto } from '@app/contracts/tasks/update-task.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -18,6 +19,15 @@ export class TasksService {
   storeTask(createTaskDto: CreateTaskDto) {
     return firstValueFrom(
       this.tasksClient.send(TASKS_PATTERS.STORE, createTaskDto),
+    );
+  }
+
+  updateTask(taskId: number, updateTaskDto: UpdateTaskDto) {
+    return firstValueFrom(
+      this.tasksClient.send(TASKS_PATTERS.UPDATE, {
+        taskId,
+        updateTaskDto,
+      }),
     );
   }
 }

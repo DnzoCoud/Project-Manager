@@ -4,6 +4,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { TASKS_PATTERS } from '@app/contracts/tasks/tasks.patterns';
 import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
 import { TaskMapper } from './task.mapper';
+import { UpdateTaskDto } from '@app/contracts/tasks/update-task.dto';
 
 @Controller()
 export class TasksController {
@@ -27,5 +28,21 @@ export class TasksController {
       await this.tasksService.storeTask(createTaskDto),
     );
     return newTask;
+  }
+
+  @MessagePattern(TASKS_PATTERS.UPDATE)
+  async updateTask(
+    @Payload() payload: { taskId: number; updateTaskDto: UpdateTaskDto },
+  ) {
+    const { taskId, updateTaskDto } = payload;
+    const newTask = TaskMapper.toDto(
+      await this.tasksService.updateTask(taskId, updateTaskDto),
+    );
+    return newTask;
+  }
+
+  @MessagePattern(TASKS_PATTERS.UPDATE)
+  async deleteTask(taskId: number) {
+    await this.tasksService.deleteTask(taskId);
   }
 }

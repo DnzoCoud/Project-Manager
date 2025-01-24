@@ -37,4 +37,21 @@ export class TasksController extends BaseController {
       return this.errorResponse(error);
     }
   }
+
+  @Patch(':taskId')
+  async updateTask(
+    @Param('taskId') taskId: number,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    try {
+      return this.successResponse(
+        {
+          task: await this.taskService.updateTask(taskId, updateTaskDto),
+        },
+        'Tarea actualizada correctamente.',
+      );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
 }
