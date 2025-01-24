@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { Project } from './entities/project.entity';
 import { firstValueFrom } from 'rxjs';
 import { TASKS_PATTERS } from '@app/contracts/tasks/tasks.patterns';
+import { TaskDto } from '@app/contracts/tasks/tasks.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -51,6 +52,19 @@ export class ProjectsService {
     console.log(createTaskDto);
     return firstValueFrom(
       this.tasksService.send(TASKS_PATTERS.STORE, createTaskDto),
+    );
+  }
+
+  async findAllTaskByProject(projectId: number) {
+    const existsProject = await this.existById(projectId);
+    if (!existsProject)
+      throw new NotFoundException('No exsite el proyecto con este id');
+
+    return firstValueFrom(
+      this.tasksService.send<TaskDto[]>(
+        TASKS_PATTERS.FIND_ALL_BY_PROJECT,
+        projectId,
+      ),
     );
   }
 }

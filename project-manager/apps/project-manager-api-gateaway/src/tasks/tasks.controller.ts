@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { BaseController } from '../common/base-controller';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
+import { UpdateTaskDto } from '@app/contracts/tasks/update-task.dto';
 
 @Controller('tasks')
 export class TasksController extends BaseController {
@@ -28,7 +29,7 @@ export class TasksController extends BaseController {
     try {
       return this.successResponse(
         {
-          project: await this.taskService.storeTask(createTaskDto),
+          task: await this.taskService.storeTask(createTaskDto),
         },
         'Tarea creada correctamente.',
       );

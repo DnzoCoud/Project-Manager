@@ -1,6 +1,7 @@
 import { CreateProjectDto } from '@app/contracts/projects/create-project.dto';
 import { PROJECTS_PATTERS } from '@app/contracts/projects/projects.patterns';
 import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
+import { TaskDto } from '@app/contracts/tasks/tasks.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -27,6 +28,15 @@ export class ProjectsService {
         projectId,
         createTaskDto,
       }),
+    );
+  }
+
+  findTasksByProject(projectId: number) {
+    return firstValueFrom(
+      this.projectsClient.send<TaskDto[]>(
+        PROJECTS_PATTERS.FIND_TASKS_BY_PROJECT,
+        projectId,
+      ),
     );
   }
 }

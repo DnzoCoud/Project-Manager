@@ -15,6 +15,14 @@ export class TasksService {
     return this.taskRepository.find();
   }
 
+  findAllByProject(projectId: number) {
+    return this.taskRepository.find({
+      where: {
+        projectId,
+      },
+    });
+  }
+
   storeTask(createTaskDto: CreateTaskDto) {
     const newTask = this.taskRepository.create({
       title: createTaskDto.title,

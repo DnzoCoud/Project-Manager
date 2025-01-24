@@ -10,8 +10,15 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @MessagePattern(TASKS_PATTERS.FIND_ALL)
-  findAll(projectId: number) {
+  findAll() {
     return this.tasksService.findAll();
+  }
+
+  @MessagePattern(TASKS_PATTERS.FIND_ALL_BY_PROJECT)
+  async findAllByProject(projectId: number) {
+    const tasks = await this.tasksService.findAllByProject(projectId);
+    const dtos = tasks.length > 0 ? tasks.map(TaskMapper.toDto) : [];
+    return dtos;
   }
 
   @MessagePattern(TASKS_PATTERS.STORE)

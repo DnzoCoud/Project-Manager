@@ -39,6 +39,19 @@ export class ProjectsController extends BaseController {
     }
   }
 
+  @Get(':projectId/tasks')
+  async findTasksByProject(@Param('projectId') projecId: number) {
+    try {
+      return this.successResponse(
+        {
+          tasks: await this.projectService.findTasksByProject(projecId),
+        },
+        'Lista de tareas.',
+      );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
   @Post(':projectId/tasks')
   async assignTaskToProject(
     @Param('projectId') projecId: number,
