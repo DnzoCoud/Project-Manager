@@ -49,7 +49,6 @@ export class ProjectsService {
 
     createTaskDto.projectId = projectId;
     createTaskDto.status = TaskEstatusEnum.TO_DO;
-    console.log(createTaskDto);
     return firstValueFrom(
       this.tasksService.send(TASKS_PATTERS.STORE, createTaskDto),
     );

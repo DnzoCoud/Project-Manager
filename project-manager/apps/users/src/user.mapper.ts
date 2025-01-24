@@ -22,4 +22,13 @@ export class UserMapper {
       password: user.password,
     };
   }
+  static withPasswordToDto(user: UserWithPasswordDto): UserDto {
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      fullName: `${user.firstName} ${user.lastName}`,
+    };
+  }
 }

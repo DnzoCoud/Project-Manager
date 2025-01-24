@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { LoginDto } from '@app/contracts/users/login.dto';
 import { BaseController } from '../common/base-controller';
@@ -19,7 +19,8 @@ export class AuthenticationController extends BaseController {
         'Usuario autenticado correctamente',
       );
     } catch (error) {
-      return this.errorResponse(error);
+      const ex = this.errorResponse(error);
+      throw new HttpException(ex, ex.statusCode);
     }
   }
 }

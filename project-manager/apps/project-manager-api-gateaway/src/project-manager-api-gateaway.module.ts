@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
 import { TasksModule } from './tasks/tasks.module';
+import { APP_FILTER } from '@nestjs/core';
+import { RpcExceptionFilter } from './exceptions/gateaway.exception';
 
 @Module({
   imports: [UsersModule, AuthenticationModule, ProjectsModule, TasksModule],

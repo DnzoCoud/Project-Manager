@@ -4,7 +4,6 @@ import { UsersService } from './users.service';
 import { USERS_PATTERS } from '@app/contracts/users/users.patterns';
 import { CreateUserDto } from '@app/contracts/users/create-user.dto';
 import { ValidatePasswordDto } from '@app/contracts/users/login.dto';
-import { UserMapper } from './user.mapper';
 
 @Controller()
 export class UsersController {

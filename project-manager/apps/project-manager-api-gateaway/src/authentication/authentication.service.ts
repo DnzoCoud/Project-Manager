@@ -1,15 +1,24 @@
 import { AUTH_PATTERNS } from '@app/contracts/authentication/auth.patterns';
 import { LoginDto } from '@app/contracts/users/login.dto';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AuthenticationService {
   constructor(@Inject('AUTH_CLIENT') private authClient: ClientProxy) {}
 
   login(loginDto: LoginDto) {
-    return firstValueFrom(this.authClient.send(AUTH_PATTERNS.LOGIN, loginDto));
+    return firstValueFrom(
+      this.authClient.send(AUTH_PATTERNS.LOGIN, loginDto).pipe(
+        catchError((error) => {
+          throw new HttpException(
+            error.response || error.message,
+            error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }),
+      ),
+    );
   }
 
   async validateToken(token: string) {
