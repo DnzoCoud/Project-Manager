@@ -17,7 +17,7 @@ export class Task {
   @Column('text')
   description: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   deadline: Date;
 
   @Column({ default: 'todo', enum: ['todo', 'progress', 'complete'] })
