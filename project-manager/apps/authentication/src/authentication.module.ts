@@ -5,6 +5,8 @@ import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MICROSERVICE_PORTS } from '@app/contracts/microservices-ports';
 
 @Module({
   imports: [
@@ -12,9 +14,18 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtModule.register({
       secret: 'secret_key',
       signOptions: {
-        expiresIn: '60s',
+        expiresIn: '1h',
       },
     }),
+    ClientsModule.register([
+      {
+        name: 'USERS_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          port: MICROSERVICE_PORTS.USERS_MICROSERVICE,
+        },
+      },
+    ]),
   ],
   controllers: [AuthenticationController],
   providers: [AuthenticationService, JwtStrategy, LocalStrategy],

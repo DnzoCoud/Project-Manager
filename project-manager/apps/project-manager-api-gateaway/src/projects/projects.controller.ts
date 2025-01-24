@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { BaseController } from '../common/base-controller';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from '@app/contracts/projects/create-project.dto';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
+import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('projects')
 export class ProjectsController extends BaseController {
   constructor(private projectService: ProjectsService) {
@@ -34,5 +37,10 @@ export class ProjectsController extends BaseController {
     } catch (error) {
       return this.errorResponse(error);
     }
+  }
+
+  @Post(':projectId/tasks')
+  async assignTaskToProject(@Param('projectId') projecId: number, @Body() createTaskDto: CreateTaskDto) {
+    
   }
 }

@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '@app/contracts/users/create-user.dto';
 import { BaseController } from '../common/base-controller';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController extends BaseController {
@@ -9,6 +10,7 @@ export class UsersController extends BaseController {
     super();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     try {

@@ -5,7 +5,8 @@ import { DuplicatedResourceException } from 'libs/exceptions/duplicated.exceptio
 import { Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
 import { User } from './entities/user.entity';
-
+import * as bcrypt from 'bcrypt';
+import { ValidatePasswordDto } from '@app/contracts/users/login.dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -14,6 +15,11 @@ export class UsersService {
     @InjectRepository(Role)
     private readonly rolesRepository: Repository<Role>,
   ) {}
+
+  private async hashPassword(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(10);
+    return bcrypt.hash(password, salt);
+  }
 
   async findAll() {
     return await this.usersRepository.find();
@@ -30,7 +36,7 @@ export class UsersService {
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       email: createUserDto.email,
-      password: createUserDto.password,
+      password: await this.hashPassword(createUserDto.password),
     });
 
     return await this.usersRepository.save(newUser);
@@ -42,5 +48,9 @@ export class UsersService {
 
   existByEmail(email: string) {
     return this.usersRepository.existsBy({ email });
+  }
+
+  async validatePassword({ password, hash }: ValidatePasswordDto) {
+    return bcrypt.compare(password, hash);
   }
 }

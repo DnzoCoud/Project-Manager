@@ -4,6 +4,7 @@ import { ProjectsService } from './projects.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ProjectDataSource from './data/data-source';
 import { Project } from './entities/project.entity';
+import { ClientsModule } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Project } from './entities/project.entity';
       },
     }),
     TypeOrmModule.forFeature([Project]),
+    // ClientsModule.register({})
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService],

@@ -3,6 +3,7 @@ import { ProjectsService } from './projects.service';
 import { ProjectsController } from './projects.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MICROSERVICE_PORTS } from '@app/contracts/microservices-ports';
+import { AuthenticationModule } from '../authentication/authentication.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { MICROSERVICE_PORTS } from '@app/contracts/microservices-ports';
         },
       },
     ]),
+    AuthenticationModule,
   ],
   providers: [ProjectsService],
   controllers: [ProjectsController],
