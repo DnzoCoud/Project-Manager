@@ -23,6 +23,7 @@ export class ProjectsController {
   assignTaskToProject(
     @Payload() payload: { projectId: number; createTaskDto: CreateTaskDto },
   ) {
-    
+    const { projectId, createTaskDto } = payload;
+    return this.projectsService.assignTaskToProject(projectId, createTaskDto);
   }
 }

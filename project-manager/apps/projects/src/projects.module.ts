@@ -4,7 +4,8 @@ import { ProjectsService } from './projects.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ProjectDataSource from './data/data-source';
 import { Project } from './entities/project.entity';
-import { ClientsModule } from '@nestjs/microservices';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MICROSERVICE_PORTS } from '@app/contracts/microservices-ports';
 
 @Module({
   imports: [
@@ -15,7 +16,15 @@ import { ClientsModule } from '@nestjs/microservices';
       },
     }),
     TypeOrmModule.forFeature([Project]),
-    // ClientsModule.register({})
+    ClientsModule.register([
+      {
+        name: 'TASKS_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          port: MICROSERVICE_PORTS.TASKS_MICROSERVICE,
+        },
+      },
+    ]),
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService],

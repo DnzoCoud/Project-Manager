@@ -21,7 +21,12 @@ export class ProjectsService {
     );
   }
 
-  asssignTaskToProject(projectId:number, createTaskDto:CreateTaskDto){
-    
+  asssignTaskToProject(projectId: number, createTaskDto: CreateTaskDto) {
+    return firstValueFrom(
+      this.projectsClient.send(PROJECTS_PATTERS.ASSIGN_TASK_TO_PROJECT, {
+        projectId,
+        createTaskDto,
+      }),
+    );
   }
 }

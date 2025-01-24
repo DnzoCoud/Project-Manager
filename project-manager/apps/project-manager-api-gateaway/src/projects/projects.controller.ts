@@ -40,7 +40,22 @@ export class ProjectsController extends BaseController {
   }
 
   @Post(':projectId/tasks')
-  async assignTaskToProject(@Param('projectId') projecId: number, @Body() createTaskDto: CreateTaskDto) {
-    
+  async assignTaskToProject(
+    @Param('projectId') projecId: number,
+    @Body() createTaskDto: CreateTaskDto,
+  ) {
+    try {
+      return this.successResponse(
+        {
+          task: await this.projectService.asssignTaskToProject(
+            projecId,
+            createTaskDto,
+          ),
+        },
+        'Tarea asignada correctamente.',
+      );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
   }
 }

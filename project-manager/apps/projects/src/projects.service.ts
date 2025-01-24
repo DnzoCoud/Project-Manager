@@ -1,15 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Project } from './entities/project.entity';
-import { Repository } from 'typeorm';
 import { CreateProjectDto } from '@app/contracts/projects/create-project.dto';
-import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
+import {
+  CreateTaskDto,
+  TaskEstatusEnum,
+} from '@app/contracts/tasks/create-task.dto';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Project } from './entities/project.entity';
+import { firstValueFrom } from 'rxjs';
+import { TASKS_PATTERS } from '@app/contracts/tasks/tasks.patterns';
 
 @Injectable()
 export class ProjectsService {
   constructor(
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
+    @Inject('TASKS_SERVICE')
+    private tasksService: ClientProxy,
   ) {}
 
   findAll() {
@@ -32,8 +40,17 @@ export class ProjectsService {
     });
     return this.projectRepository.save(newProject);
   }
-  
-  assignTaskToProject(projectId: number, createTaskDto: CreateTaskDto) {
 
+  async assignTaskToProject(projectId: number, createTaskDto: CreateTaskDto) {
+    const existsProject = await this.existById(projectId);
+    if (!existsProject)
+      throw new NotFoundException('No exsite el proyecto con este id');
+
+    createTaskDto.projectId = projectId;
+    createTaskDto.status = TaskEstatusEnum.TO_DO;
+    console.log(createTaskDto);
+    return firstValueFrom(
+      this.tasksService.send(TASKS_PATTERS.STORE, createTaskDto),
+    );
   }
 }
