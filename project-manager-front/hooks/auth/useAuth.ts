@@ -23,6 +23,7 @@ export const useAuth = () => {
         });
         toast.success(`Bienvenido ${data?.authenticate.user.firstName} 🙌`);
       }
+      return true;
     } catch (error: any) {
       setError(error);
       toast.error(error.error);

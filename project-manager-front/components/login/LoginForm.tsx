@@ -5,6 +5,7 @@ import { LoginDto } from "@/types/auth/login.dto";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Link } from "@heroui/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { GrFormNext } from "react-icons/gr";
 import { LuExternalLink } from "react-icons/lu";
@@ -15,6 +16,7 @@ export default function LoginForm() {
     password: "",
   });
   const { loading, login, error } = useAuth();
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData((prevData) => ({
@@ -25,7 +27,10 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await login(loginData);
+    const state = await login(loginData);
+    if(state){
+      router.push("/main")
+    }
   };
 
   return (
