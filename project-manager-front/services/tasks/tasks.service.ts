@@ -30,6 +30,28 @@ export class TaskService {
       } as ApiErrorResponse;
     }
   }
+  async getById(id: number) {
+    try {
+      const response = await apiInstance.get<ApiResponse<{ task: TaskDto }>>(
+        `/tasks/${id}`
+      );
+      return response.data.data;
+    } catch (error: any) {
+      if (isApiError(error)) {
+        throw error;
+      }
+      if (error.response?.data && isApiError(error.response.data)) {
+        throw error.response.data;
+      }
+      throw {
+        status: "error",
+        message: "Error en el sistema",
+        data: null,
+        error: error.message || "Error desconocido",
+        statusCode: 500,
+      } as ApiErrorResponse;
+    }
+  }
 
   async updateTaskInfo(taskId: number, updateTaskDto: UpdateTaskDto) {
     try {

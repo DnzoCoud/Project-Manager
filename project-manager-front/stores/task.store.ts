@@ -5,6 +5,7 @@ interface TaskState {
   tasks: TaskDto[];
   setTasks: (tasks: TaskDto[]) => void;
   addTask: (task: TaskDto) => void;
+  updateTask: (updatedTask: TaskDto) => void;
 }
 
 export const useTaskStore = create<TaskState>()((set, get) => ({
@@ -15,6 +16,13 @@ export const useTaskStore = create<TaskState>()((set, get) => ({
   addTask: (task) => {
     set((state) => ({
       tasks: [...state.tasks, task],
+    }));
+  },
+  updateTask: (updatedTask) => {
+    set((state) => ({
+      tasks: state.tasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      ),
     }));
   },
 }));

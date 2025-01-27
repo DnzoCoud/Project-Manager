@@ -1,9 +1,11 @@
 import { useProject } from "@/hooks/projects/useProject";
+import { useTask } from "@/hooks/tasks/useTask";
 import { useTeam } from "@/hooks/teams/useTeam";
 import { useUser } from "@/hooks/users/useUser";
 import { useTeamStore } from "@/stores/team.store";
 import { useUserStore } from "@/stores/user.store";
 import { CreateTaskDto, TaskEstatusEnum } from "@/types/tasks/create-task.dto";
+import { TaskDto } from "@/types/tasks/task.dto";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { DatePicker } from "@heroui/date-picker";
@@ -18,6 +20,7 @@ import {
 import { useParams } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { GoPackageDependents } from "react-icons/go";
+import { toast } from "sonner";
 
 interface TaskFormProps {
   id?: number; //Id de la tarea SOLO PARA ACTUALIZAR
@@ -31,6 +34,7 @@ export default function TaskForm({ id }: TaskFormProps) {
   const { getAllTeams, loading: teamsLoading } = useTeam();
   const { users } = useUserStore();
   const { teams } = useTeamStore();
+  const { getById, updateTask } = useTask();
 
   const [taskData, setTaskData] = useState<CreateTaskDto>({
     title: "",
@@ -63,22 +67,52 @@ export default function TaskForm({ id }: TaskFormProps) {
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await assignTaskToProject(Number(projectId), taskData);
-    setTaskData({
-      title: "",
-      description: "",
-      deadline: new Date().toISOString(),
-      projectId: 0,
-      assignedTeamIds: [],
-      assignedUserIds: [],
-      status: TaskEstatusEnum.TO_DO,
-    });
+    if (id) {
+      //ACTUALIZAR
+      const succes = await updateTask(id, taskData);
+      if (succes) {
+        toast.success("Tarea actualizada correctamente.");
+      }
+    } else {
+      //CREAR
+      await assignTaskToProject(Number(projectId), taskData);
+      setTaskData({
+        title: "",
+        description: "",
+        deadline: new Date().toISOString(),
+        projectId: 0,
+        assignedTeamIds: [],
+        assignedUserIds: [],
+        status: TaskEstatusEnum.TO_DO,
+      });
+    }
   };
 
   useEffect(() => {
     getAllUsers();
     getAllTeams();
   }, [projectId]);
+
+  useEffect(() => {
+    if (id) {
+      const fetchTaskToUpdate = async () => {
+        const task = await getById(id);
+        if (task) {
+          setTaskData({
+            title: task.title,
+            description: task.description,
+            deadline: task.deadline,
+            status: task.status as TaskEstatusEnum,
+            assignedTeamIds: task.assignedTeams.map((team) => team.id),
+            assignedUserIds: task.assignedUsers.map((user) => user.id),
+            projectId: task.projectId,
+          });
+        }
+      };
+
+      fetchTaskToUpdate();
+    }
+  }, [id]);
 
   return (
     <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -105,6 +139,7 @@ export default function TaskForm({ id }: TaskFormProps) {
         selectionMode="multiple"
         isLoading={usersLoading}
         items={users}
+        selectedKeys={taskData.assignedUserIds.map((id) => id.toString())}
         onSelectionChange={(keys) => {
           setTaskData({
             ...taskData,
@@ -136,6 +171,7 @@ export default function TaskForm({ id }: TaskFormProps) {
         selectionMode="multiple"
         isLoading={teamsLoading}
         items={teams}
+        selectedKeys={taskData.assignedTeamIds.map((id) => id.toString())}
         onSelectionChange={(keys) => {
           setTaskData({
             ...taskData,
@@ -171,15 +207,28 @@ export default function TaskForm({ id }: TaskFormProps) {
         value={taskData.description}
         onChange={handleChange}
       />
-      <Button
-        color="success"
-        className="text-white"
-        endContent={<GoPackageDependents />}
-        isLoading={loading}
-        type="submit"
-      >
-        Crear Tarea
-      </Button>
+      {id && (
+        <Button
+          color="warning"
+          className="text-white"
+          endContent={<GoPackageDependents />}
+          isLoading={loading}
+          type="submit"
+        >
+          Actualizar Tarea
+        </Button>
+      )}
+      {!id && (
+        <Button
+          color="success"
+          className="text-white"
+          endContent={<GoPackageDependents />}
+          isLoading={loading}
+          type="submit"
+        >
+          Crear Tarea
+        </Button>
+      )}
     </form>
   );
 }
