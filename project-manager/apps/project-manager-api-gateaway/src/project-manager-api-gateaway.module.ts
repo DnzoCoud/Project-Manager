@@ -7,9 +7,10 @@ import { ProjectsModule } from './projects/projects.module';
 import { TasksModule } from './tasks/tasks.module';
 import { APP_FILTER } from '@nestjs/core';
 import { RpcExceptionFilter } from './exceptions/gateaway.exception';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
-  imports: [UsersModule, AuthenticationModule, ProjectsModule, TasksModule],
+  imports: [UsersModule, AuthenticationModule, ProjectsModule, TasksModule, TeamsModule],
   controllers: [ProjectManagerApiGateawayController],
   providers: [ProjectManagerApiGateawayService],
 })

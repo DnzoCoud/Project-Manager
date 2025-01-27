@@ -1,6 +1,14 @@
 import { HttpStatus } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 
+export class ServerException extends RpcException {
+  constructor(message: string = 'Error del servidor') {
+    super({
+      message,
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR, // 500
+    });
+  }
+}
 export class BadRequestException extends RpcException {
   constructor(message: string = 'Datos Incorrectos') {
     super({

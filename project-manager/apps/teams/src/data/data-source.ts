@@ -2,7 +2,7 @@ import { join } from 'path';
 import { DataSource } from 'typeorm';
 import { Team } from '../entities/team.entity';
 
-const ProjectDataSource = new DataSource({
+const TeamDataSource = new DataSource({
   type: 'sqlite',
   database: join(__dirname, '/teams.sqlite'),
   entities: [Team],
@@ -11,4 +11,4 @@ const ProjectDataSource = new DataSource({
   logging: true,
 });
 
-export default ProjectDataSource;
+export default TeamDataSource;
