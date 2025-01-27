@@ -13,6 +13,7 @@ import { taskStatusLibWithType } from "@/lib/status.util";
 import MainModal from "../MainModal";
 import { useModal } from "@/hooks/useModal";
 import TaskForm from "./TaskForm";
+import { Button } from "@heroui/button";
 interface TaskCardProps {
   task: TaskDto;
 }
@@ -57,6 +58,10 @@ export default function TaskCard({ task }: TaskCardProps) {
             #{task.id} {task.title}
           </h1>
           <p className="text-muted-foreground text-xs">{task.description}</p>
+          <div className="w-full flex items-center justify-between gap-4">
+            <Button className="w-1/2">sdasd</Button>
+            <Button className="w-1/2">Poner En progreso</Button>
+          </div>
         </span>
         <div className="flex items-center justify-between border-t p-2">
           <div className="flex items-center flex-1 justify-start gap-8">
