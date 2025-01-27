@@ -18,14 +18,9 @@ export const useAuthStore = create<AuthState>()(
         set({
           authUser: authData.user,
         });
-        localStorage.setItem(
-          API_CONSTANTS.LOCAL_TOKEN_NAME,
-          authData.accessToken
-        );
       },
       clearAuthData: () => {
         set({ authUser: null });
-        localStorage.removeItem(API_CONSTANTS.LOCAL_TOKEN_NAME);
       },
       getFullName: () => {
         const user = get().authUser;

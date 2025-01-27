@@ -1,7 +1,13 @@
 import { LoginDto } from "@/types/auth/login.dto";
 import apiInstance from "../axiosInstance";
-import { ApiErrorResponse, ApiResponse, isApiError } from "@/types/api-response";
+import {
+  ApiErrorResponse,
+  ApiResponse,
+  isApiError,
+} from "@/types/api-response";
 import { LoginResponse } from "@/types/auth/login-response.dto";
+import { setCookie } from "@/lib/cookies";
+import { API_CONSTANTS } from "@/constants/api.constants";
 
 export class AuthService {
   async login(loginData: LoginDto) {
@@ -13,13 +19,16 @@ export class AuthService {
       if (isApiError(response.data)) {
         throw response.data;
       }
-
+      setCookie(
+        API_CONSTANTS.LOCAL_TOKEN_NAME,
+        response.data.data?.authenticate.accessToken || ""
+      );
       return response.data.data;
     } catch (error: any) {
       if (isApiError(error)) {
         throw error;
       }
-      
+
       // Si es un error de axios, intentamos extraer la respuesta de error
       if (error.response?.data && isApiError(error.response.data)) {
         throw error.response.data;
@@ -31,7 +40,7 @@ export class AuthService {
         message: "Error en el sistema",
         data: null,
         error: error.message || "Error desconocido",
-        statusCode: 500
+        statusCode: 500,
       } as ApiErrorResponse;
     }
   }

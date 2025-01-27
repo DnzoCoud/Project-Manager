@@ -1,4 +1,5 @@
 import { API_CONSTANTS } from "@/constants/api.constants";
+import { getCookie } from "@/lib/cookies";
 import { ApiErrorResponse } from "@/types/api-response";
 import axios, { AxiosError } from "axios";
 
@@ -9,7 +10,7 @@ const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem(API_CONSTANTS.LOCAL_TOKEN_NAME);
+    const token = getCookie(API_CONSTANTS.LOCAL_TOKEN_NAME);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -26,12 +27,12 @@ apiInstance.interceptors.response.use(
   },
   (error: AxiosError<ApiErrorResponse>) => {
     const errorResponse = error.response?.data;
-    
+
     const customError = new Error();
     Object.assign(customError, {
-      message: errorResponse?.message || 'Error desconocido',
+      message: errorResponse?.message || "Error desconocido",
       statusCode: errorResponse?.statusCode || 500,
-      error: errorResponse?.error || 'Error interno',
+      error: errorResponse?.error || "Error interno",
       data: errorResponse?.data || null,
     });
 

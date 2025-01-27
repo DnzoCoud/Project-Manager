@@ -42,7 +42,7 @@ export default function NavItem({
       <li
         className={cn(
           "size-11 rounded-xl group active:bg-gray-300 transition-all",
-          isActive && "bg-gray-basic"
+          isActive && "bg-slate-800"
         )}
       >
         <Link
@@ -63,7 +63,7 @@ export default function NavItem({
                 className: cn(
                   "text-2xl text-muted-foreground group-hover:text-black",
                   iconClassName,
-                  isActive && "text-black"
+                  isActive && "text-white"
                 ),
               })}
             </>
