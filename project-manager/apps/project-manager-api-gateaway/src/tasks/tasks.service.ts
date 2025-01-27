@@ -16,6 +16,11 @@ export class TasksService {
   findAll() {
     return firstValueFrom(this.tasksClient.send(TASKS_PATTERS.FIND_ALL, {}));
   }
+  findById(taskId: number) {
+    return firstValueFrom(
+      this.tasksClient.send(TASKS_PATTERS.FIND_BY_ID, taskId),
+    );
+  }
 
   storeTask(createTaskDto: CreateTaskDto) {
     return firstValueFrom(

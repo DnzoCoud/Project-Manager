@@ -27,6 +27,43 @@ export class TasksService {
     return this.taskRepository.find();
   }
 
+  async findByIdWithRelations(id: number) {
+    const task = await this.taskRepository.findOneBy({ id });
+    const allUserIds = task.assignedUserIds;
+    const uniqueUserIds = [...new Set(allUserIds)];
+    const users = await firstValueFrom(
+      this.userService.send<UserDto[]>(
+        USERS_PATTERS.FIND_BY_IDS,
+        uniqueUserIds,
+      ),
+    );
+    const allTeamIds = task.assignedTeamIds;
+    const uniqueTeamIds = [...new Set(allTeamIds)];
+    const teams = await firstValueFrom(
+      this.teamService.send<TeamDto[]>(
+        TEAMS_PATTERS.FIND_ALL_BY_IDS,
+        uniqueTeamIds,
+      ),
+    );
+
+    const tasksWithUsers: TaskDto = {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      deadline: task.deadline.toString(),
+      status: task.status,
+      projectId: task.projectId,
+      createdAt: task.created_at.toISOString(),
+      updateddAt: task.updated_at.toISOString(),
+      assignedUsers: task.assignedUserIds.map((id) =>
+        users.find((user) => user.id === +id),
+      ),
+      assignedTeams: task.assignedTeamIds.map((id) =>
+        teams.find((team) => team.id === +id),
+      ),
+    };
+    return tasksWithUsers;
+  }
   findById(id: number) {
     return this.taskRepository.findOneBy({ id });
   }

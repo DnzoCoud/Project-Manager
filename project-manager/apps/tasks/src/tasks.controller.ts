@@ -1,10 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { MessagePattern, Payload } from '@nestjs/microservices';
-import { TASKS_PATTERS } from '@app/contracts/tasks/tasks.patterns';
 import { CreateTaskDto } from '@app/contracts/tasks/create-task.dto';
-import { TaskMapper } from './task.mapper';
+import { TASKS_PATTERS } from '@app/contracts/tasks/tasks.patterns';
 import { UpdateTaskDto } from '@app/contracts/tasks/update-task.dto';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { TasksService } from './tasks.service';
 
 @Controller()
 export class TasksController {
@@ -13,6 +12,11 @@ export class TasksController {
   @MessagePattern(TASKS_PATTERS.FIND_ALL)
   findAll() {
     return this.tasksService.findAll();
+  }
+
+  @MessagePattern(TASKS_PATTERS.FIND_BY_ID)
+  findById(id: number) {
+    return this.tasksService.findByIdWithRelations(id);
   }
 
   @MessagePattern(TASKS_PATTERS.FIND_ALL_BY_PROJECT)

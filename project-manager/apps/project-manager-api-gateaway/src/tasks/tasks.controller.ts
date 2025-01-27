@@ -34,6 +34,21 @@ export class TasksController extends BaseController {
       return this.errorResponse(error);
     }
   }
+
+  @Get(':taskId')
+  async findById(@Param('taskId') taskId: number) {
+    try {
+      return this.successResponse(
+        {
+          task: await this.taskService.findById(taskId),
+        },
+        'Información de tarea',
+      );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
+
   @Get('project/:projectId')
   async findAllByProject(@Param('projectId') projectId: number) {
     try {

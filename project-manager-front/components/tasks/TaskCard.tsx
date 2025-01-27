@@ -9,16 +9,23 @@ import AssignedGroups from "../AssignedGroups";
 import MainList, { ListProps } from "../MainList";
 import { Chip } from "@heroui/chip";
 import AssignedTeams from "../AssignedTeams";
+import { taskStatusLibWithType } from "@/lib/status.util";
+import MainModal from "../MainModal";
+import { useModal } from "@/hooks/useModal";
+import TaskForm from "./TaskForm";
 interface TaskCardProps {
   task: TaskDto;
 }
 export default function TaskCard({ task }: TaskCardProps) {
+  const { isOpen, open, close } = useModal();
+
   const listOptions = useMemo(() => {
     const list: ListProps[] = [
       {
         label: "Editar",
         key: "edit",
         color: "default",
+        onPress: () => open(),
       },
       {
         label: "Eliminar",
@@ -43,10 +50,12 @@ export default function TaskCard({ task }: TaskCardProps) {
           </PopoverContent>
         </Popover>
         <span className="space-y-1 p-2 h-full bg-gradient-to-tr from-slate-50 from-70% to-purple-100">
-          <Chip color="default" variant="bordered">
+          <Chip color={taskStatusLibWithType(task.status)} variant="bordered">
             {task.status}
           </Chip>
-          <h1 className="font-semibold text-sm">{task.title}</h1>
+          <h1 className="font-semibold text-sm">
+            #{task.id} {task.title}
+          </h1>
           <p className="text-muted-foreground text-xs">{task.description}</p>
         </span>
         <div className="flex items-center justify-between border-t p-2">
@@ -74,6 +83,12 @@ export default function TaskCard({ task }: TaskCardProps) {
           </span>
         </div>
       </Card>
+      <MainModal
+        isOpen={isOpen}
+        onOpenChange={close}
+        title="Editar Tarea"
+        content={<TaskForm id={task.id} />}
+      />
     </>
   );
 }
