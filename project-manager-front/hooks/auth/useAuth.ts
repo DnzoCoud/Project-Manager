@@ -1,11 +1,13 @@
 import { AuthService } from "@/services/auth/auth.service";
 import { useAuthStore } from "@/stores/auth.store";
+import { ApiErrorResponse } from "@/types/api-response";
 import { LoginDto } from "@/types/auth/login.dto";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<ApiErrorResponse | null>(null);
   const authService = new AuthService();
   const { setAuthData } = useAuthStore();
 
@@ -18,10 +20,11 @@ export const useAuth = () => {
           accessToken: data?.authenticate.accessToken,
           user: data.authenticate.user,
         });
+        toast.success(`Bienvenido ${data?.authenticate.user.firstName} 🙌`);
       }
-      toast.success("My success toast");
-    } catch (error) {
-      toast.error("Fallo en el sistema");
+    } catch (error: any) {
+      setError(error);
+      toast.error(error.error);
     } finally {
       setLoading(false);
     }
@@ -29,5 +32,6 @@ export const useAuth = () => {
   return {
     login,
     loading,
+    error
   };
 };

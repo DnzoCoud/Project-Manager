@@ -1,5 +1,6 @@
 import { API_CONSTANTS } from "@/constants/api.constants";
-import axios from "axios";
+import { ApiErrorResponse } from "@/types/api-response";
+import axios, { AxiosError } from "axios";
 
 const apiInstance = axios.create({
   baseURL: API_CONSTANTS.BASE_URL,
@@ -23,12 +24,18 @@ apiInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
-    if (error.response?.status === 401) {
-      console.error("No autorizado, redirigiendo al login...");
-      // Puedes redirigir al login aquí si es necesario
-    }
-    return Promise.reject(error);
+  (error: AxiosError<ApiErrorResponse>) => {
+    const errorResponse = error.response?.data;
+    
+    const customError = new Error();
+    Object.assign(customError, {
+      message: errorResponse?.message || 'Error desconocido',
+      statusCode: errorResponse?.statusCode || 500,
+      error: errorResponse?.error || 'Error interno',
+      data: errorResponse?.data || null,
+    });
+
+    return Promise.reject(customError);
   }
 );
 

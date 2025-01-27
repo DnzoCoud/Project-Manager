@@ -25,7 +25,7 @@ export class BaseController {
     );
     return {
       status: 'error',
-      message,
+      message:error.message,
       data: null,
       error: error.message || 'An unexpected error occurred',
       statusCode: status,
