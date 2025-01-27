@@ -1,3 +1,4 @@
+import { TeamDto } from '../teams/team.dto';
 import { UserDto } from '../users/user.dto';
 
 export class TaskDto {
@@ -10,4 +11,5 @@ export class TaskDto {
   createdAt: string;
   updateddAt: string;
   assignedUsers: UserDto[];
+  assignedTeams: TeamDto[];
 }

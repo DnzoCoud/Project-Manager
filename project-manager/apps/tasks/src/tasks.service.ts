@@ -9,6 +9,8 @@ import { firstValueFrom } from 'rxjs';
 import { USERS_PATTERS } from '@app/contracts/users/users.patterns';
 import { UserDto } from '@app/contracts/users/user.dto';
 import { TaskDto } from '@app/contracts/tasks/tasks.dto';
+import { TeamDto } from '@app/contracts/teams/team.dto';
+import { TEAMS_PATTERS } from '@app/contracts/teams/teams.pattern';
 
 @Injectable()
 export class TasksService {
@@ -17,6 +19,8 @@ export class TasksService {
     private readonly taskRepository: Repository<Task>,
     @Inject('USERS_SERVICE')
     private userService: ClientProxy,
+    @Inject('TEAMS_SERVICE')
+    private teamService: ClientProxy,
   ) {}
 
   findAll() {
@@ -44,6 +48,14 @@ export class TasksService {
         uniqueUserIds,
       ),
     );
+    const allTeamIds = tasks.flatMap((task) => task.assignedTeamIds);
+    const uniqueTeamIds = [...new Set(allTeamIds)];
+    const teams = await firstValueFrom(
+      this.teamService.send<TeamDto[]>(
+        TEAMS_PATTERS.FIND_ALL_BY_IDS,
+        uniqueTeamIds,
+      ),
+    );
 
     const tasksWithUsers: TaskDto[] = tasks.map((task) => ({
       id: task.id,
@@ -56,6 +68,9 @@ export class TasksService {
       updateddAt: task.updated_at.toISOString(),
       assignedUsers: task.assignedUserIds.map((id) =>
         users.find((user) => user.id === +id),
+      ),
+      assignedTeams: task.assignedTeamIds.map((id) =>
+        teams.find((team) => team.id === +id),
       ),
     }));
     return tasksWithUsers;

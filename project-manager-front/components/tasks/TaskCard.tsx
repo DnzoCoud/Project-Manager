@@ -8,6 +8,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import AssignedGroups from "../AssignedGroups";
 import MainList, { ListProps } from "../MainList";
 import { Chip } from "@heroui/chip";
+import AssignedTeams from "../AssignedTeams";
 interface TaskCardProps {
   task: TaskDto;
 }
@@ -49,9 +50,20 @@ export default function TaskCard({ task }: TaskCardProps) {
           <p className="text-muted-foreground text-xs">{task.description}</p>
         </span>
         <div className="flex items-center justify-between border-t p-2">
-          <div className="py-2">
+          <div className="flex items-center flex-1 justify-start gap-8">
             {task.assignedUsers.length > 0 && (
-              <AssignedGroups users={task.assignedUsers} />
+              <div>
+                <small className="text-xs text-muted-foreground">
+                  Personas
+                </small>
+                <AssignedGroups users={task.assignedUsers} />
+              </div>
+            )}
+            {task.assignedTeams.length > 0 && (
+              <div>
+                <small className="text-xs text-muted-foreground">Equipos</small>
+                <AssignedTeams teams={task.assignedTeams} />
+              </div>
             )}
           </div>
           <span className="flex items-center gap-2">

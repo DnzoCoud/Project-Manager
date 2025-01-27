@@ -12,6 +12,12 @@ export class TeamsController {
   findAll() {
     return this.teamsService.findAll();
   }
+
+  @MessagePattern(TEAMS_PATTERS.FIND_ALL_BY_IDS)
+  findAllByIds(ids: number[]) {
+    return this.teamsService.findByIds(ids);
+  }
+
   @MessagePattern(TEAMS_PATTERS.STORE)
   store(@Payload() createTeamDto: CreateTeamDto) {
     return this.teamsService.store(createTeamDto);

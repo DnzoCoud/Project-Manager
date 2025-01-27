@@ -1,7 +1,8 @@
 import { useProject } from "@/hooks/projects/useProject";
+import { useTeam } from "@/hooks/teams/useTeam";
 import { useUser } from "@/hooks/users/useUser";
+import { useTeamStore } from "@/stores/team.store";
 import { useUserStore } from "@/stores/user.store";
-import useStore from "@/stores/useStore";
 import { CreateTaskDto, TaskEstatusEnum } from "@/types/tasks/create-task.dto";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
@@ -27,7 +28,9 @@ export default function TaskForm({ id }: TaskFormProps) {
     parseDate(new Date().toISOString().split("T")[0])
   );
   const { getAllUsers, loading: usersLoading } = useUser();
+  const { getAllTeams, loading: teamsLoading } = useTeam();
   const { users } = useUserStore();
+  const { teams } = useTeamStore();
 
   const [taskData, setTaskData] = useState<CreateTaskDto>({
     title: "",
@@ -74,6 +77,7 @@ export default function TaskForm({ id }: TaskFormProps) {
 
   useEffect(() => {
     getAllUsers();
+    getAllTeams();
   }, [projectId]);
 
   return (
@@ -121,6 +125,39 @@ export default function TaskForm({ id }: TaskFormProps) {
               <div className="flex flex-col">
                 <span className="text-small">{user.firstName}</span>
                 <span className="text-tiny text-default-400">{user.email}</span>
+              </div>
+            </div>
+          </SelectItem>
+        )}
+      </Select>
+      <Select
+        label="Asignar tarea a equipo de trabajo"
+        placeholder="Asigna a un equipo"
+        selectionMode="multiple"
+        isLoading={teamsLoading}
+        items={teams}
+        onSelectionChange={(keys) => {
+          setTaskData({
+            ...taskData,
+            assignedTeamIds: Array.from(keys).map((key) => Number(key)),
+          });
+        }}
+      >
+        {(team) => (
+          <SelectItem key={team.id} textValue={team.name}>
+            <div className="flex gap-2 items-center">
+              <Avatar
+                alt={team.name}
+                className="flex-shrink-0"
+                size="sm"
+                name={team.name}
+                color="warning"
+              />
+              <div className="flex flex-col">
+                <span className="text-small">{team.name}</span>
+                <span className="text-tiny text-default-400">
+                  {team.description}
+                </span>
               </div>
             </div>
           </SelectItem>

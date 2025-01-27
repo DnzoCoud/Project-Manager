@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Team } from './entities/team.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { UserDto } from '@app/contracts/users/user.dto';
@@ -38,6 +38,32 @@ export class TeamsService {
         users.find((user) => user.id === +id),
       ),
     }));
+    return teamsWithUsers;
+  }
+
+  async findByIds(ids: number[]) {
+    const teams = await this.teamRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
+    const allUserIds = teams.flatMap((team) => team.assignedUserIds);
+    const uniqueUserIds = [...new Set(allUserIds)];
+    const users = await firstValueFrom(
+      this.userService.send<UserDto[]>(
+        USERS_PATTERS.FIND_BY_IDS,
+        uniqueUserIds,
+      ),
+    );
+    const teamsWithUsers: TeamDto[] = teams.map((team) => ({
+      id: team.id,
+      name: team.name,
+      description: team.description,
+      users: team.assignedUserIds.map((id) =>
+        users.find((user) => user.id === +id),
+      ),
+    }));
+
     return teamsWithUsers;
   }
 

@@ -25,6 +25,15 @@ import { MICROSERVICE_PORTS } from '@app/contracts/microservices-ports';
         },
       },
     ]),
+    ClientsModule.register([
+      {
+        name: 'TEAMS_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          port: MICROSERVICE_PORTS.TEAMS_MICROSERVICE,
+        },
+      },
+    ]),
   ],
   controllers: [TasksController],
   providers: [TasksService],
