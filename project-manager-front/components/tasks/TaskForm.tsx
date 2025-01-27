@@ -5,7 +5,6 @@ import { useUser } from "@/hooks/users/useUser";
 import { useTeamStore } from "@/stores/team.store";
 import { useUserStore } from "@/stores/user.store";
 import { CreateTaskDto, TaskEstatusEnum } from "@/types/tasks/create-task.dto";
-import { TaskDto } from "@/types/tasks/task.dto";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { DatePicker } from "@heroui/date-picker";

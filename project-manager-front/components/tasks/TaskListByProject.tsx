@@ -2,11 +2,9 @@
 import { useTask } from "@/hooks/tasks/useTask";
 import { useTaskStore } from "@/stores/task.store";
 import useStore from "@/stores/useStore";
-import { TaskEstatusEnum } from "@/types/tasks/create-task.dto";
-import { Tab, Tabs } from "@heroui/tabs";
+import { TaskDto } from "@/types/tasks/task.dto";
 import { useEffect, useState } from "react";
 import TaskList from "./TaskToDo";
-import { TaskDto } from "@/types/tasks/task.dto";
 
 interface TaskListByProjectProps {
   projectId: number;
