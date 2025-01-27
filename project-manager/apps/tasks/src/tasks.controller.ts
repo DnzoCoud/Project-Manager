@@ -23,10 +23,7 @@ export class TasksController {
 
   @MessagePattern(TASKS_PATTERS.STORE)
   async storeTask(@Payload() createTaskDto: CreateTaskDto) {
-    const newTask = TaskMapper.toDto(
-      await this.tasksService.storeTask(createTaskDto),
-    );
-    return newTask;
+    return this.tasksService.storeTask(createTaskDto);
   }
 
   @MessagePattern(TASKS_PATTERS.UPDATE)
@@ -34,10 +31,7 @@ export class TasksController {
     @Payload() payload: { taskId: number; updateTaskDto: UpdateTaskDto },
   ) {
     const { taskId, updateTaskDto } = payload;
-    const newTask = TaskMapper.toDto(
-      await this.tasksService.updateTask(taskId, updateTaskDto),
-    );
-    return newTask;
+    return this.tasksService.updateTask(taskId, updateTaskDto);
   }
 
   @MessagePattern(TASKS_PATTERS.DELETE)

@@ -31,7 +31,7 @@ export default function TaskCard({ task }: TaskCardProps) {
 
   return (
     <>
-      <Card className=" flex flex-col  relative">
+      <Card className=" flex flex-col  relative shadow-none border-2">
         <Popover placement="right">
           <PopoverTrigger>
             <span className="absolute right-3 top-2 size-6 flex items-center justify-center hover:bg-gray-basic rounded-full cursor-pointer">
@@ -42,7 +42,7 @@ export default function TaskCard({ task }: TaskCardProps) {
             <MainList items={listOptions} />
           </PopoverContent>
         </Popover>
-        <span className="space-y-1 p-2 h-full bg-gradient-to-tr from-slate-50 to-purple-100">
+        <span className="space-y-1 p-2 h-full bg-gradient-to-tr from-slate-50 from-70% to-purple-100">
           <Chip color="default" variant="bordered">
             {task.status}
           </Chip>

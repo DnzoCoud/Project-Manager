@@ -87,7 +87,7 @@ export class TasksService {
     return users;
   }
 
-  storeTask(createTaskDto: CreateTaskDto) {
+  async storeTask(createTaskDto: CreateTaskDto) {
     const newTask = this.taskRepository.create({
       title: createTaskDto.title,
       description: createTaskDto.description,
@@ -97,16 +97,86 @@ export class TasksService {
       assignedTeamIds: createTaskDto.assignedTeamIds,
       assignedUserIds: createTaskDto.assignedUserIds,
     });
-    return this.taskRepository.save(newTask);
+    const savedTask = await this.taskRepository.save(newTask);
+
+    const allUserIds = savedTask.assignedUserIds;
+    const uniqueUserIds = [...new Set(allUserIds)];
+    const users = await firstValueFrom(
+      this.userService.send<UserDto[]>(
+        USERS_PATTERS.FIND_BY_IDS,
+        uniqueUserIds,
+      ),
+    );
+    const allTeamIds = savedTask.assignedTeamIds;
+    const uniqueTeamIds = [...new Set(allTeamIds)];
+    const teams = await firstValueFrom(
+      this.teamService.send<TeamDto[]>(
+        TEAMS_PATTERS.FIND_ALL_BY_IDS,
+        uniqueTeamIds,
+      ),
+    );
+
+    const tasksWithUsers: TaskDto = {
+      id: savedTask.id,
+      title: savedTask.title,
+      description: savedTask.description,
+      deadline: savedTask.deadline.toString(),
+      status: savedTask.status,
+      projectId: savedTask.projectId,
+      createdAt: savedTask.created_at.toISOString(),
+      updateddAt: savedTask.updated_at.toISOString(),
+      assignedUsers: savedTask.assignedUserIds.map((id) =>
+        users.find((user) => user.id === +id),
+      ),
+      assignedTeams: savedTask.assignedTeamIds.map((id) =>
+        teams.find((team) => team.id === +id),
+      ),
+    };
+    return tasksWithUsers;
   }
 
-  async updateTask(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
+  async updateTask(id: number, updateTaskDto: UpdateTaskDto) {
     const task = await this.findById(id);
     if (!task) {
       throw new NotFoundException(`Tarea con id ${id} no encontrada`);
     }
     Object.assign(task, updateTaskDto);
-    return await this.taskRepository.save(task);
+    const savedTask = await this.taskRepository.save(task);
+
+    const allUserIds = savedTask.assignedUserIds;
+    const uniqueUserIds = [...new Set(allUserIds)];
+    const users = await firstValueFrom(
+      this.userService.send<UserDto[]>(
+        USERS_PATTERS.FIND_BY_IDS,
+        uniqueUserIds,
+      ),
+    );
+    const allTeamIds = savedTask.assignedTeamIds;
+    const uniqueTeamIds = [...new Set(allTeamIds)];
+    const teams = await firstValueFrom(
+      this.teamService.send<TeamDto[]>(
+        TEAMS_PATTERS.FIND_ALL_BY_IDS,
+        uniqueTeamIds,
+      ),
+    );
+
+    const tasksWithUsers: TaskDto = {
+      id: savedTask.id,
+      title: savedTask.title,
+      description: savedTask.description,
+      deadline: savedTask.deadline.toString(),
+      status: savedTask.status,
+      projectId: savedTask.projectId,
+      createdAt: savedTask.created_at.toISOString(),
+      updateddAt: savedTask.updated_at.toISOString(),
+      assignedUsers: savedTask.assignedUserIds.map((id) =>
+        users.find((user) => user.id === +id),
+      ),
+      assignedTeams: savedTask.assignedTeamIds.map((id) =>
+        teams.find((team) => team.id === +id),
+      ),
+    };
+    return tasksWithUsers;
   }
 
   async deleteTask(id: number) {

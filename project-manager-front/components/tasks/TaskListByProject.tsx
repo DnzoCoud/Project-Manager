@@ -23,19 +23,26 @@ export default function TaskListByProject({
   }, [projectId]);
 
   useEffect(() => {
-    setTasksByProject(
-      tasks?.filter((task) => task.projectId === projectId) || []
-    );
-  }, [tasks]);
-  return (
-    <div className="flex w-full flex-col px-4">
-      <TaskList
-        tasks={
-          tasksByProject?.filter(
-            (task) => task.status === TaskEstatusEnum.TO_DO
-          ) || []
+    const groupedTasks = tasks?.reduce(
+      (acc, task) => {
+        if (!acc[task.projectId]) {
+          acc[task.projectId] = [];
         }
-      />
+        acc[task.projectId].push(task);
+        return acc;
+      },
+      {} as Record<number, TaskDto[]>
+    );
+
+    // Filtrar las tareas para el projectId actual
+    if (groupedTasks && groupedTasks[projectId]) {
+      setTasksByProject(groupedTasks[projectId]);
+    }
+  }, [tasks, projectId]);
+
+  return (
+    <div className="flex w-full flex-col px-4 my-2">
+      <TaskList tasks={tasksByProject || []} />
     </div>
   );
 }
