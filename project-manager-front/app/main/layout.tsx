@@ -1,3 +1,4 @@
+import Navbar from "@/components/main/Navbar/Navbar";
 import Sidebar from "@/components/main/Sidebar";
 import React from "react";
 
@@ -8,7 +9,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="w-screen h-screen flex ">
       <Sidebar />
-      <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+      <main className="flex-1 overflow-y-auto">
+        <Navbar />
+        {children}
+      </main>
     </div>
   );
 }

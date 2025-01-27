@@ -1,9 +1,11 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GoProjectRoadmap } from "react-icons/go";
 import { Tooltip } from "@heroui/tooltip";
 import { cn } from "@/lib/class-merge.util";
 import { useActiveLink } from "@/hooks/useActiveLink";
+import { useSidebarStore } from "@/stores/main/useSidebarStore";
+import { useStore } from "zustand";
 
 export interface NavItemProps {
   label: string;
@@ -19,18 +21,41 @@ export default function NavItem({
   path,
 }: NavItemProps) {
   const isActive = useActiveLink(path);
+  const setActiveLink = useStore(
+    useSidebarStore,
+    (state) => state.setActiveLink
+  );
+
+  useEffect(() => {
+    if (isActive) {
+      setActiveLink({
+        label,
+        path,
+        icon,
+        iconClassName,
+      });
+    }
+  }, [path, isActive]);
 
   return (
     <Tooltip content={label} placement="right">
       <li
         className={cn(
-          "size-9 rounded-xl group active:bg-gray-300 transition-all",
+          "size-11 rounded-xl group active:bg-gray-300 transition-all",
           isActive && "bg-gray-basic"
         )}
       >
         <Link
           href={path}
           className="size-full flex items-center justify-center"
+          onClick={() => {
+            setActiveLink({
+              label,
+              path,
+              icon,
+              iconClassName,
+            });
+          }}
         >
           {icon ? (
             <>

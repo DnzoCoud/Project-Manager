@@ -28,8 +28,8 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const state = await login(loginData);
-    if(state){
-      router.push("/main")
+    if (state) {
+      router.push("/main/projects");
     }
   };
 

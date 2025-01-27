@@ -1,21 +1,30 @@
+import { NavItemProps } from "@/components/main/NavItem";
 import { create } from "zustand";
 
 interface SidebarState {
   isOpen: boolean;
   openMenu: VoidFunction;
   closeMenu: VoidFunction;
+  activeLink: NavItemProps | null;
+  setActiveLink: (navItemProps: NavItemProps) => void;
 }
 
-export const useSidebarStore = create<SidebarState>()((state) => ({
+export const useSidebarStore = create<SidebarState>()((set) => ({
   isOpen: false,
+  activeLink: null,
   openMenu: () => {
-    state({
+    set({
       isOpen: true,
     });
   },
   closeMenu: () => {
-    state({
+    set({
       isOpen: false,
+    });
+  },
+  setActiveLink: (navItemProps: NavItemProps) => {
+    set({
+      activeLink: navItemProps,
     });
   },
 }));

@@ -12,7 +12,7 @@ const items: NavItemProps[] = [
   {
     label: "Projects",
     icon: <GoProjectRoadmap />,
-    path: "/main",
+    path: "/main/projects",
   },
   {
     label: "Users",
@@ -27,11 +27,11 @@ export default function Sidebar() {
     <aside
       className={cn(
         isSidebarOpen ? "w-72" : "w-16",
-        "flex flex-col justify-start items-center  transition my-6 gap-4"
+        "flex flex-col justify-start items-center  transition py-6 gap-4 h-full border-r"
       )}
     >
       <AiOutlineProduct className="text-3xl" />
-      <nav className="w-full flex items-center justify-center">
+      <nav className="w-full flex items-center justify-center flex-1">
         <ul className="flex flex-col items-center gap-6">
           {items.map((item, i) => (
             <NavItem
