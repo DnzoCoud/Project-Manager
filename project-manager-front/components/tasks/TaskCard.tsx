@@ -1,12 +1,13 @@
 import { DateUtilities } from "@/lib/date.util";
 import { TaskDto } from "@/types/tasks/task.dto";
 import { Card } from "@heroui/card";
-import React, { useMemo } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
+import { useMemo } from "react";
 import { CiCalendar } from "react-icons/ci";
 import { SlOptionsVertical } from "react-icons/sl";
-import MainList, { ListProps } from "../MainList";
-import { Popover, PopoverTrigger, PopoverContent } from "@heroui/popover";
 import AssignedGroups from "../AssignedGroups";
+import MainList, { ListProps } from "../MainList";
+import { Chip } from "@heroui/chip";
 interface TaskCardProps {
   task: TaskDto;
 }
@@ -41,6 +42,9 @@ export default function TaskCard({ task }: TaskCardProps) {
           </PopoverContent>
         </Popover>
         <span className="space-y-1 p-2 h-full bg-gradient-to-tr from-slate-50 to-purple-100">
+          <Chip color="default" variant="bordered">
+            {task.status}
+          </Chip>
           <h1 className="font-semibold text-sm">{task.title}</h1>
           <p className="text-muted-foreground text-xs">{task.description}</p>
         </span>

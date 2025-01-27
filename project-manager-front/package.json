@@ -11,8 +11,10 @@
  "dependencies": {
   "@heroui/alert": "^2.2.10",
   "@heroui/avatar": "^2.2.7",
+  "@heroui/badge": "^2.2.6",
   "@heroui/button": "2.2.9",
   "@heroui/card": "^2.2.10",
+  "@heroui/chip": "^2.2.7",
   "@heroui/code": "2.2.6",
   "@heroui/date-picker": "^2.3.10",
   "@heroui/input": "2.4.9",
