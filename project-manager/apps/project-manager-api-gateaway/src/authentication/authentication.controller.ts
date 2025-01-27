@@ -20,7 +20,7 @@ export class AuthenticationController extends BaseController {
       );
     } catch (error) {
       const ex = this.errorResponse(error);
-      throw new HttpException(ex, ex.statusCode);
+      throw new HttpException(ex, Number(ex.statusCode));
     }
   }
 }

@@ -6,6 +6,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError, firstValueFrom } from 'rxjs';
+import { UnathorizetException } from 'libs/exceptions/custom.exceptions';
 @Injectable()
 export class AuthenticationService {
   constructor(
@@ -14,45 +15,35 @@ export class AuthenticationService {
   ) {}
 
   async validateUser(email: string, password: string) {
-    try {
-      const userDto = await firstValueFrom(
-        this.usersService.send<UserWithPasswordDto | null>(
-          USERS_PATTERS.GET_BY_EMAIL,
-          {
-            email: email,
-          },
-        ),
-      );
+    const userDto = await firstValueFrom(
+      this.usersService.send<UserWithPasswordDto | null>(
+        USERS_PATTERS.GET_BY_EMAIL,
+        {
+          email: email,
+        },
+      ),
+    );
 
-      if (!userDto) {
-        throw new RpcException({
-          statusCode: 404, // Código de estado HTTP 404
-          message: 'Usuario no encontrado',
-        });
-      }
-      const isPasswordValid = await firstValueFrom(
-        this.usersService.send<boolean, ValidatePasswordDto>(
-          USERS_PATTERS.VALIDATE_PASSWORD,
-          {
-            password: password,
-            hash: userDto.password,
-          },
-        ),
-      );
-
-      if (!isPasswordValid) {
-        throw new RpcException({
-          statusCode: 401, // Código de estado HTTP 401
-          message: 'Credenciales inválidas',
-        });
-      }
-      return UserMapper.withPasswordToDto(userDto);
-    } catch (error) {
+    if (!userDto) {
       throw new RpcException({
-        statusCode: 500, // Código de estado HTTP 500 para errores internos
-        message: 'Error al validar el usuario',
+        statusCode: 404, // Código de estado HTTP 404
+        message: 'Usuario no encontrado',
       });
     }
+    const isPasswordValid = await firstValueFrom(
+      this.usersService.send<boolean, ValidatePasswordDto>(
+        USERS_PATTERS.VALIDATE_PASSWORD,
+        {
+          password: password,
+          hash: userDto.password,
+        },
+      ),
+    );
+
+    if (!isPasswordValid) {
+      throw new UnathorizetException("Credenciales Invalidas")
+    }
+    return UserMapper.withPasswordToDto(userDto);
   }
 
   private async generateToken(user: UserDto) {

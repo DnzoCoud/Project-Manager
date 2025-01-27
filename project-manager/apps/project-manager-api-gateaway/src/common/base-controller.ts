@@ -19,6 +19,7 @@ export class BaseController {
     message: string = 'Error',
     statusCode: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
   ) {
+    
     const status = Number(
       error instanceof HttpException ? error.getStatus() : statusCode,
     );

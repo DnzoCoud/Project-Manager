@@ -12,9 +12,10 @@ export class AuthenticationService {
     return firstValueFrom(
       this.authClient.send(AUTH_PATTERNS.LOGIN, loginDto).pipe(
         catchError((error) => {
+          console.log(error)
           throw new HttpException(
             error.response || error.message,
-            error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+            error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR,
           );
         }),
       ),
