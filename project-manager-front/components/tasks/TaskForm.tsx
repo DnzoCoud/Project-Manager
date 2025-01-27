@@ -1,8 +1,13 @@
 import { useProject } from "@/hooks/projects/useProject";
+import { useUser } from "@/hooks/users/useUser";
+import { useUserStore } from "@/stores/user.store";
+import useStore from "@/stores/useStore";
 import { CreateTaskDto, TaskEstatusEnum } from "@/types/tasks/create-task.dto";
+import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { DatePicker } from "@heroui/date-picker";
 import { Input, Textarea } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
 import {
   CalendarDate,
   getLocalTimeZone,
@@ -10,7 +15,7 @@ import {
   today,
 } from "@internationalized/date";
 import { useParams } from "next/navigation";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { GoPackageDependents } from "react-icons/go";
 
 interface TaskFormProps {
@@ -21,13 +26,16 @@ export default function TaskForm({ id }: TaskFormProps) {
   const [value, setValue] = React.useState(
     parseDate(new Date().toISOString().split("T")[0])
   );
+  const { getAllUsers, loading: usersLoading } = useUser();
+  const { users } = useUserStore();
+
   const [taskData, setTaskData] = useState<CreateTaskDto>({
     title: "",
     description: "",
     deadline: new Date().toISOString().split("T")[0],
-    projectId: 0,
-    assignedTeamId: null,
-    assignedUserId: null,
+    projectId: Number(projectId),
+    assignedTeamIds: [],
+    assignedUserIds: [],
     status: TaskEstatusEnum.TO_DO,
   });
 
@@ -58,11 +66,15 @@ export default function TaskForm({ id }: TaskFormProps) {
       description: "",
       deadline: new Date().toISOString(),
       projectId: 0,
-      assignedTeamId: null,
-      assignedUserId: null,
+      assignedTeamIds: [],
+      assignedUserIds: [],
       status: TaskEstatusEnum.TO_DO,
     });
   };
+
+  useEffect(() => {
+    getAllUsers();
+  }, [projectId]);
 
   return (
     <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -83,6 +95,37 @@ export default function TaskForm({ id }: TaskFormProps) {
         }}
         isRequired
       />
+      <Select
+        label="Asignar tarea a ciertas personas"
+        placeholder="Asigna a una persona"
+        selectionMode="multiple"
+        isLoading={usersLoading}
+        items={users}
+        onSelectionChange={(keys) => {
+          setTaskData({
+            ...taskData,
+            assignedUserIds: Array.from(keys).map((key) => Number(key)),
+          });
+        }}
+      >
+        {(user) => (
+          <SelectItem key={user.id} textValue={user.firstName}>
+            <div className="flex gap-2 items-center">
+              <Avatar
+                alt={user.firstName}
+                className="flex-shrink-0"
+                size="sm"
+                name={user.firstName}
+                color="secondary"
+              />
+              <div className="flex flex-col">
+                <span className="text-small">{user.firstName}</span>
+                <span className="text-tiny text-default-400">{user.email}</span>
+              </div>
+            </div>
+          </SelectItem>
+        )}
+      </Select>
       <Textarea
         label="Descripción"
         name="description"

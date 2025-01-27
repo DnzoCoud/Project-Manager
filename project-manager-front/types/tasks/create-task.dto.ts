@@ -10,6 +10,6 @@ export interface CreateTaskDto {
   deadline: string;
   status: TaskEstatusEnum;
   projectId: number;
-  assignedUserId: number | null;
-  assignedTeamId: number | null;
+  assignedUserIds: number[];
+  assignedTeamIds: number[];
 }

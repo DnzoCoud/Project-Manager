@@ -79,8 +79,8 @@ export class TasksService {
       deadline: createTaskDto.deadline,
       status: createTaskDto.status,
       projectId: createTaskDto.projectId,
-      assignedTeamIds: createTaskDto.assignedTeamId,
-      assignedUserIds: createTaskDto.assignedUserId,
+      assignedTeamIds: createTaskDto.assignedTeamIds,
+      assignedUserIds: createTaskDto.assignedUserIds,
     });
     return this.taskRepository.save(newTask);
   }
