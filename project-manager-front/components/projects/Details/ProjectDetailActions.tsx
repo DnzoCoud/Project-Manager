@@ -1,12 +1,10 @@
-"use client";
+import MainModal from "@/components/MainModal";
+import { useDisclosure } from "@heroui/modal";
 import React from "react";
 import { MdAdd } from "react-icons/md";
-import MainModal from "../MainModal";
-import { useDisclosure } from "@heroui/modal";
-import ProjectForm from "./ProjectForm";
-export default function ProjectActions() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+export default function ProjectDetailActions() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
       <div className="flex items-center justify-around my-6">
@@ -17,14 +15,14 @@ export default function ProjectActions() {
           <span className="bg-slate-800 size-12 flex items-center justify-center rounded-xl">
             <MdAdd className="text-white text-3xl" />
           </span>
-          <span className="font-semibold">Crear Proyecto</span>
+          <span className="font-semibold">Crear Tarea</span>
         </button>
       </div>
       <MainModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        title="Crear un proyecto"
-        content={<ProjectForm />}
+        title="Crear una tarea"
+        content={<>sdsdsd</>}
       />
     </>
   );

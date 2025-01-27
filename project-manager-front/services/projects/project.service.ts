@@ -14,7 +14,6 @@ export class ProjectService {
         await apiInstance.get<ApiResponse<{ projects: ProjectDto[] }>>(
           "/projects"
         );
-      console.log(response);
       return response.data.data;
     } catch (error: any) {
       if (isApiError(error)) {
