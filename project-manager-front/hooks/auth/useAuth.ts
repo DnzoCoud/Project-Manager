@@ -13,6 +13,7 @@ export const useAuth = () => {
 
   const login = async (loginData: LoginDto) => {
     setLoading(true);
+    setError(null);
     try {
       const data = await authService.login(loginData);
       if (data) {
@@ -25,6 +26,7 @@ export const useAuth = () => {
     } catch (error: any) {
       setError(error);
       toast.error(error.error);
+      return false;
     } finally {
       setLoading(false);
     }

@@ -8,14 +8,13 @@ import { Link } from "@heroui/link";
 import React, { useState } from "react";
 import { GrFormNext } from "react-icons/gr";
 import { LuExternalLink } from "react-icons/lu";
-import { toast } from "sonner";
 
 export default function LoginForm() {
   const [loginData, setLoginData] = useState<LoginDto>({
     email: "",
     password: "",
   });
-  const { loading, login } = useAuth();
+  const { loading, login, error } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData((prevData) => ({
@@ -40,6 +39,7 @@ export default function LoginForm() {
         name="email"
         value={loginData.email}
         onChange={handleChange}
+        required
       />
       <Input
         label="Contraseña"
@@ -47,6 +47,7 @@ export default function LoginForm() {
         name="password"
         value={loginData.password}
         onChange={handleChange}
+        required
       />
       <Button
         color="primary"
