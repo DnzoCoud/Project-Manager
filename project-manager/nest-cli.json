@@ -55,6 +55,15 @@
         "tsConfigPath": "apps/tasks/tsconfig.app.json"
       }
     },
+    "teams": {
+      "type": "application",
+      "root": "apps/teams",
+      "entryFile": "main",
+      "sourceRoot": "apps/teams/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/teams/tsconfig.app.json"
+      }
+    },
     "users": {
       "type": "application",
       "root": "apps/users",
