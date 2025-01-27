@@ -33,7 +33,7 @@ export default function ProjectForm() {
       <Input
         label="Nombre del royecto"
         name="name"
-        required
+        isRequired
         value={projectData.name}
         onChange={handleChange}
       />
@@ -41,7 +41,7 @@ export default function ProjectForm() {
         label="Descripción"
         name="description"
         placeholder="Escribe una breve descripción del proyecto"
-        required
+        isRequired
         value={projectData.description}
         onChange={handleChange}
       />

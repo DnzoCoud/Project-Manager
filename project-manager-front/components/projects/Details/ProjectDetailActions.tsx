@@ -1,4 +1,5 @@
 import MainModal from "@/components/MainModal";
+import TaskForm from "@/components/tasks/TaskForm";
 import { useDisclosure } from "@heroui/modal";
 import React from "react";
 import { MdAdd } from "react-icons/md";
@@ -22,7 +23,7 @@ export default function ProjectDetailActions() {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         title="Crear una tarea"
-        content={<>sdsdsd</>}
+        content={<TaskForm />}
       />
     </>
   );
