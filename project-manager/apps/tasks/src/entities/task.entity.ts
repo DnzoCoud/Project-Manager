@@ -26,11 +26,11 @@ export class Task {
   @Column({ nullable: true })
   projectId: number;
 
-  @Column({ nullable: true })
-  assignedUserId: number;
+  @Column('simple-array')
+  assignedUserIds: number[];
 
-  @Column({ nullable: true })
-  assignedTeamId: number;
+  @Column('simple-array')
+  assignedTeamIds: number[];
 
   @CreateDateColumn()
   created_at: Date;

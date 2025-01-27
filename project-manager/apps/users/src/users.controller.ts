@@ -4,6 +4,7 @@ import { UsersService } from './users.service';
 import { USERS_PATTERS } from '@app/contracts/users/users.patterns';
 import { CreateUserDto } from '@app/contracts/users/create-user.dto';
 import { ValidatePasswordDto } from '@app/contracts/users/login.dto';
+import { UserMapper } from './user.mapper';
 
 @Controller()
 export class UsersController {
@@ -28,5 +29,10 @@ export class UsersController {
   @MessagePattern(USERS_PATTERS.VALIDATE_PASSWORD)
   validatePassword(@Payload() validatePasswordDto: ValidatePasswordDto) {
     return this.usersService.validatePassword(validatePasswordDto);
+  }
+
+  @MessagePattern(USERS_PATTERS.FIND_BY_IDS)
+  async findByIds(ids: number[]) {
+    return (await this.usersService.findByIds(ids)).map(UserMapper.toDto);
   }
 }

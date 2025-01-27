@@ -2,7 +2,7 @@ import { CreateUserDto } from '@app/contracts/users/create-user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DuplicatedResourceException } from 'libs/exceptions/duplicated.exception';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
@@ -48,6 +48,14 @@ export class UsersService {
 
   existByEmail(email: string) {
     return this.usersRepository.existsBy({ email });
+  }
+
+  findByIds(ids: number[]) {
+    return this.usersRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
   }
 
   async validatePassword({ password, hash }: ValidatePasswordDto) {

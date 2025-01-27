@@ -10,6 +10,6 @@ export class CreateTaskDto {
   deadline: string;
   status: TaskEstatusEnum;
   projectId: number;
-  assignedUserId: number | null;
-  assignedTeamId: number | null;
+  assignedUserId: number[];
+  assignedTeamId: number[];
 }

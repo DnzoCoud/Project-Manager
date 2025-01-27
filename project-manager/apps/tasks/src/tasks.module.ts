@@ -4,6 +4,8 @@ import { TasksService } from './tasks.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import TaskDataSource from './data/data-source';
 import { Task } from './entities/task.entity';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MICROSERVICE_PORTS } from '@app/contracts/microservices-ports';
 
 @Module({
   imports: [
@@ -14,6 +16,15 @@ import { Task } from './entities/task.entity';
       },
     }),
     TypeOrmModule.forFeature([Task]),
+    ClientsModule.register([
+      {
+        name: 'USERS_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          port: MICROSERVICE_PORTS.USERS_MICROSERVICE,
+        },
+      },
+    ]),
   ],
   controllers: [TasksController],
   providers: [TasksService],

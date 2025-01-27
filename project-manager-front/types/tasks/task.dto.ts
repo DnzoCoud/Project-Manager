@@ -1,3 +1,5 @@
+import { UserDto } from "../users/user.dto";
+
 export interface TaskDto {
   id: number;
   title: string;
@@ -7,4 +9,5 @@ export interface TaskDto {
   projectId: number;
   createdAt: string;
   updateddAt: string;
+  assignedUsers: UserDto[];
 }

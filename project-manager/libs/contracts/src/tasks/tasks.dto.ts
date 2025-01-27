@@ -1,3 +1,5 @@
+import { UserDto } from '../users/user.dto';
+
 export class TaskDto {
   id: number;
   title: string;
@@ -7,4 +9,5 @@ export class TaskDto {
   projectId: number;
   createdAt: string;
   updateddAt: string;
+  assignedUsers: UserDto[];
 }

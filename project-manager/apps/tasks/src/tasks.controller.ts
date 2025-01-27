@@ -18,8 +18,7 @@ export class TasksController {
   @MessagePattern(TASKS_PATTERS.FIND_ALL_BY_PROJECT)
   async findAllByProject(projectId: number) {
     const tasks = await this.tasksService.findAllByProject(projectId);
-    const dtos = tasks.length > 0 ? tasks.map(TaskMapper.toDto) : [];
-    return dtos;
+    return tasks;
   }
 
   @MessagePattern(TASKS_PATTERS.STORE)

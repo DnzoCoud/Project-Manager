@@ -18,9 +18,6 @@ export default function TaskListByProject({
   const tasks = useStore(useTaskStore, (state) => state.tasks);
   const [tasksByProject, setTasksByProject] = useState<TaskDto[]>([]);
 
-  // const tasksByProject =
-  //   tasks?.filter((task) => task.projectId === projectId) || [];
-
   useEffect(() => {
     getAllByProject(projectId);
   }, [projectId]);
@@ -32,35 +29,13 @@ export default function TaskListByProject({
   }, [tasks]);
   return (
     <div className="flex w-full flex-col px-4">
-      <Tabs aria-label="Options">
-        <Tab key="photos" title="To do">
-          <TaskList
-            tasks={
-              tasksByProject?.filter(
-                (task) => task.status === TaskEstatusEnum.TO_DO
-              ) || []
-            }
-          />
-        </Tab>
-        <Tab key="music" title="In Progress">
-          <TaskList
-            tasks={
-              tasksByProject?.filter(
-                (task) => task.status === TaskEstatusEnum.PROGRESS
-              ) || []
-            }
-          />
-        </Tab>
-        <Tab key="videos" title="Complete">
-          <TaskList
-            tasks={
-              tasksByProject?.filter(
-                (task) => task.status === TaskEstatusEnum.COMPLETE
-              ) || []
-            }
-          />
-        </Tab>
-      </Tabs>
+      <TaskList
+        tasks={
+          tasksByProject?.filter(
+            (task) => task.status === TaskEstatusEnum.TO_DO
+          ) || []
+        }
+      />
     </div>
   );
 }
