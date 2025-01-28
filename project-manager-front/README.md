@@ -1,53 +1,60 @@
-# Next.js & HeroUI Template
+# Project Manager
 
-This is a template for creating applications using Next.js 14 (app directory) and HeroUI (v2).
+¡Bienvenidos a **Project Manager**! Este proyecto es una aplicación moderna construida con **Next.js**, **React** y **TypeScript**, diseñada para ser fácil de usar, rápida y escalable. A continuación, encontrarás todo lo que necesitas saber para correr el proyecto en tu máquina local.
 
-[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
+## Características
 
-## Technologies Used
+- **Desarrollado con Next.js**: Framework React de alto rendimiento para la creación de aplicaciones web modernas.
+- **Soporte para TypeScript**: Aprovecha la seguridad y eficiencia de tipos estáticos en el código.
+- **Interfaz moderna y atractiva**: Utiliza componentes de UI bien diseñados y accesibles.
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [HeroUI v2](https://heroui.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+## Requisitos
 
-## How to Use
+Asegúrate de tener lo siguiente instalado en tu máquina:
 
-### Use the template with create-next-app
+- [Node.js](https://nodejs.org/) (v22 o superior)
+- [npm](https://www.npmjs.com/) o [Yarn](https://yarnpkg.com/) (Administrador de paquetes)
 
-To create a new project based on this template using `create-next-app`, run the following command:
+## Instalación
 
-```bash
-npx create-next-app -e https://github.com/heroui-inc/next-app-template
-```
+Sigue estos pasos para clonar el repositorio y poner en marcha el proyecto en tu máquina local:
 
-### Install dependencies
+1. Clona este repositorio:
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+   ```bash
+   git clone https://github.com/DnzoCoud/Project-Manager
+   ```
 
-```bash
-npm install
-```
+2. Accede al directorio del proyecto:
+   ```bash
+   cd project-manager-front
+   ```
+3. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+4. No requieres vaeriables de entorno para este proyecto
 
-### Run the development server
+## Correr el Proyecto Localmente
 
-```bash
-npm run dev
-```
+Una vez que hayas instalado las dependencias y configurado tus variables de entorno, puedes correr la aplicación en tu máquina local:
 
-### Setup pnpm (optional)
+1. Crea un build y espera que se ejecute
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+   ```bash
+   npm run build
+   ```
 
-```bash
-public-hoist-pattern[]=*@heroui/*
-```
+2. Inicia el servicor
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+   ```bash
+   npm run start
+   ```
 
-## License
+3. (OPCIONAL) Si no quieres hacer el build y solo inciar el servidor de desarrollo
 
-Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
+   ```bash
+   npm run dev
+   ```
+
+Esto arrancará la aplicación en [http://localhost:3000](http://localhost:3000). Abre esta URL en tu navegador para ver la aplicación en acción.
