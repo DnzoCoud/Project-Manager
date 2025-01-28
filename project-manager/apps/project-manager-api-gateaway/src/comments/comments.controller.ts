@@ -16,7 +16,7 @@ export class CommentsController extends BaseController {
     try {
       return this.successResponse(
         {
-          projects: await this.commentService.findAllByTask(taskId),
+          comments: await this.commentService.findAllByTask(taskId),
         },
         'Lista de comentarios',
       );
