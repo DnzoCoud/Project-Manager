@@ -7,6 +7,7 @@ interface UserState {
   setUsers: (users: UserDto[]) => void;
   usersSelects: SelectData[];
   getUsersSelectData: () => SelectData[];
+  addUser: (user: UserDto) => void;
 }
 
 export const useUserStore = create<UserState>()((set, get) => ({
@@ -27,4 +28,8 @@ export const useUserStore = create<UserState>()((set, get) => ({
 
     return users;
   },
+  addUser: (user) =>
+    set((state) => ({
+      users: [...state.users, user],
+    })),
 }));

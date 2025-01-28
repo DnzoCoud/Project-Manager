@@ -1,26 +1,27 @@
 "use client";
 
 import { useFormContext } from "@/context/authContext";
-import { useAuth } from "@/hooks/auth/useAuth";
-import { LoginDto } from "@/types/auth/login.dto";
+import { useUser } from "@/hooks/users/useUser";
+import { CreateUserDto } from "@/types/users/create-user.dto";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { GrFormNext } from "react-icons/gr";
-import { LuExternalLink } from "react-icons/lu";
+import { toast } from "sonner";
 
-export default function LoginForm() {
-  const { showRegisterForm } = useFormContext();
-  const [loginData, setLoginData] = useState<LoginDto>({
+export default function RegisterForm() {
+  const { showLoginForm } = useFormContext();
+
+  const [registerData, setRegisterData] = useState<CreateUserDto>({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
+    roles: [],
   });
-  const { loading, login, error } = useAuth();
-  const router = useRouter();
-
+  const { createUser, loading } = useUser();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginData((prevData) => ({
+    setRegisterData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
@@ -28,22 +29,40 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const state = await login(loginData);
+    const state = await createUser(registerData);
     if (state) {
-      router.push("/main/projects");
+      toast.success("Te has registrado con exito", {
+        description: "Ahora puedes iniciar sesion",
+      });
+      showLoginForm();
     }
   };
-
   return (
     <form
       className=" h-auto flex flex-col p-2 justify-center items-center w-[60%] gap-4"
       onSubmit={handleSubmit}
     >
       <Input
+        label="Nombre"
+        type="text"
+        name="firstName"
+        value={registerData.firstName}
+        onChange={handleChange}
+        isRequired
+      />
+      <Input
+        label="Apellido"
+        type="text"
+        name="lastName"
+        value={registerData.lastName}
+        onChange={handleChange}
+        isRequired
+      />
+      <Input
         label="Correo electronico"
         type="email"
         name="email"
-        value={loginData.email}
+        value={registerData.email}
         onChange={handleChange}
         isRequired
       />
@@ -51,7 +70,7 @@ export default function LoginForm() {
         label="Contraseña"
         type="password"
         name="password"
-        value={loginData.password}
+        value={registerData.password}
         onChange={handleChange}
         isRequired
       />
@@ -62,16 +81,8 @@ export default function LoginForm() {
         isLoading={loading}
         type="submit"
       >
-        Ingresar
+        Registrarse
       </Button>
-      <span>
-        <span>
-          No tienes cuenta?,{" "}
-          <Button variant="ghost" color="secondary" onPress={showRegisterForm}>
-            registrate aqui <LuExternalLink className="p-0.5" />
-          </Button>
-        </span>
-      </span>
     </form>
   );
 }
