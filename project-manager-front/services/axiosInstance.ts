@@ -28,6 +28,12 @@ apiInstance.interceptors.response.use(
   (error: AxiosError<ApiErrorResponse>) => {
     const errorResponse = error.response?.data;
 
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 403)
+    ) {
+      document.location.href = "/login";
+    }
     const customError = new Error();
     Object.assign(customError, {
       message: errorResponse?.message || "Error desconocido",
