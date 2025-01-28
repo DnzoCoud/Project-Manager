@@ -60,7 +60,7 @@ export class ProjectsController extends BaseController {
     try {
       return this.successResponse(
         {
-          task: await this.projectService.asssignTaskToProject(
+          task: await this.projectService.assignTaskToProject(
             projecId,
             createTaskDto,
           ),
