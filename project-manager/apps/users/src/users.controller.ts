@@ -15,6 +15,11 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @MessagePattern(USERS_PATTERS.FIND_ROLES)
+  async findAllRoles() {
+    return this.usersService.findAllRoles();
+  }
+
   @MessagePattern(USERS_PATTERS.STORE)
   store(@Payload() createUserDto: CreateUserDto) {
     return this.usersService.storeUser(createUserDto);

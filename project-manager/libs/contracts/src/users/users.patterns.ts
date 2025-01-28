@@ -5,4 +5,5 @@ export const USERS_PATTERS = {
   GET_BY_EMAIL: 'users.findByEmail',
   VALIDATE_PASSWORD: 'users.validatePassword',
   FIND_BY_IDS: 'users.findByIds',
+  FIND_ROLES: 'users.findAllRoles',
 } as const;

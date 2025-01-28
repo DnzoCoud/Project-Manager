@@ -25,6 +25,21 @@ export class UsersController extends BaseController {
       return this.errorResponse(error);
     }
   }
+  @UseGuards(JwtAuthGuard)
+  @Get('/roles/all')
+  async findAllRoles() {
+    try {
+      // return this.usersService.findAll();
+      return this.successResponse(
+        {
+          users: await this.usersService.findAllRoles(),
+        },
+        'Lista de roles',
+      );
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
 
   @Post()
   async store(@Body() createUserDto: CreateUserDto) {

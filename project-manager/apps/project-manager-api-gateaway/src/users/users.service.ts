@@ -12,6 +12,9 @@ export class UsersService {
   findAll() {
     return firstValueFrom(this.usersClient.send(USERS_PATTERS.FIND_ALL, {}));
   }
+  findAllRoles() {
+    return firstValueFrom(this.usersClient.send(USERS_PATTERS.FIND_ROLES, {}));
+  }
 
   store(createUserDto: CreateUserDto) {
     return firstValueFrom(
@@ -21,5 +24,4 @@ export class UsersService {
       ),
     );
   }
-  
 }
