@@ -4,6 +4,13 @@ export class UserDto {
   lastName: string;
   email: string;
   fullName: string;
+  role: RoleDto;
+}
+
+export interface RoleDto {
+  id: number;
+  name: string;
+  prefix: string;
 }
 
 export class UserWithPasswordDto extends UserDto {

@@ -2,24 +2,26 @@
 
 import { useFormContext } from "@/context/authContext";
 import { useUser } from "@/hooks/users/useUser";
-import { CreateUserDto } from "@/types/users/create-user.dto";
+import { useUserStore } from "@/stores/user.store";
+import { CreateUserDto, RolePrefix } from "@/types/users/create-user.dto";
+import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
-import React, { useState } from "react";
+import { Select, SelectItem } from "@heroui/select";
+import React, { useEffect, useState } from "react";
 import { GrFormNext } from "react-icons/gr";
 import { toast } from "sonner";
 
 export default function RegisterForm() {
-  const { showLoginForm } = useFormContext();
-
   const [registerData, setRegisterData] = useState<CreateUserDto>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    roles: [],
+    role: RolePrefix.ADMIN,
   });
-  const { createUser, loading } = useUser();
+  const { createUser, loading, getAllRoles } = useUser();
+  const { roles } = useUserStore();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRegisterData((prevData) => ({
       ...prevData,
@@ -34,9 +36,13 @@ export default function RegisterForm() {
       toast.success("Te has registrado con exito", {
         description: "Ahora puedes iniciar sesion",
       });
-      showLoginForm();
     }
   };
+
+  useEffect(() => {
+    getAllRoles();
+  }, []);
+
   return (
     <form
       className=" h-auto flex flex-col p-2 justify-center items-center w-[60%] gap-4"
@@ -74,6 +80,39 @@ export default function RegisterForm() {
         onChange={handleChange}
         isRequired
       />
+      <Select
+        label="Asignar tarea a ciertas personas"
+        placeholder="Asigna a una persona"
+        selectionMode="single"
+        isLoading={loading}
+        items={roles}
+        onChange={(e) => {
+          setRegisterData({
+            ...registerData,
+            role: e.target.value,
+          });
+        }}
+      >
+        {(role) => (
+          <SelectItem key={role.prefix} textValue={role.name}>
+            <div className="flex gap-2 items-center">
+              <Avatar
+                alt={role.name}
+                className="flex-shrink-0"
+                size="sm"
+                name={role.name}
+                color="secondary"
+              />
+              <div className="flex flex-col">
+                <span className="text-small">{role.name}</span>
+                <span className="text-tiny text-default-400">
+                  {role.prefix}
+                </span>
+              </div>
+            </div>
+          </SelectItem>
+        )}
+      </Select>
       <Button
         color="primary"
         endContent={<GrFormNext />}

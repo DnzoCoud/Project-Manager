@@ -3,5 +3,10 @@ export interface CreateUserDto {
   lastName: string;
   email: string;
   password: string;
-  roles: string[];
+  role: string;
+}
+
+export enum RolePrefix {
+  ADMIN = "ADM",
+  MEMBER = "USR",
 }

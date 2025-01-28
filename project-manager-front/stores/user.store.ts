@@ -1,9 +1,11 @@
 import { SelectData } from "@/types/selects";
-import { UserDto } from "@/types/users/user.dto";
+import { RoleDto, UserDto } from "@/types/users/user.dto";
 import { create } from "zustand";
 
 interface UserState {
   users: UserDto[];
+  roles: RoleDto[];
+  setRoles: (roles: RoleDto[]) => void;
   setUsers: (users: UserDto[]) => void;
   usersSelects: SelectData[];
   getUsersSelectData: () => SelectData[];
@@ -12,10 +14,15 @@ interface UserState {
 
 export const useUserStore = create<UserState>()((set, get) => ({
   users: [],
+  roles: [],
   usersSelects: [],
   setUsers: (users) =>
     set({
       users,
+    }),
+  setRoles: (roles) =>
+    set({
+      roles,
     }),
   getUsersSelectData: () => {
     const users = get().users.map(

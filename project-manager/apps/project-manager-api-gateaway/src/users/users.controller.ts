@@ -32,7 +32,7 @@ export class UsersController extends BaseController {
       // return this.usersService.findAll();
       return this.successResponse(
         {
-          users: await this.usersService.findAllRoles(),
+          roles: await this.usersService.findAllRoles(),
         },
         'Lista de roles',
       );

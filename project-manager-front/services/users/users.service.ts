@@ -4,7 +4,7 @@ import {
   isApiError,
 } from "@/types/api-response";
 import apiInstance from "../axiosInstance";
-import { UserDto } from "@/types/users/user.dto";
+import { RoleDto, UserDto } from "@/types/users/user.dto";
 import { CreateUserDto } from "@/types/users/create-user.dto";
 
 export class UserService {
@@ -12,6 +12,29 @@ export class UserService {
     try {
       const response =
         await apiInstance.get<ApiResponse<{ users: UserDto[] }>>(`/users`);
+      return response.data.data;
+    } catch (error: any) {
+      if (isApiError(error)) {
+        throw error;
+      }
+      if (error.response?.data && isApiError(error.response.data)) {
+        throw error.response.data;
+      }
+      throw {
+        status: "error",
+        message: "Error en el sistema",
+        data: null,
+        error: error.message || "Error desconocido",
+        statusCode: 500,
+      } as ApiErrorResponse;
+    }
+  }
+  async getAllRoles() {
+    try {
+      const response =
+        await apiInstance.get<ApiResponse<{ roles: RoleDto[] }>>(
+          `/users/roles/all`
+        );
       return response.data.data;
     } catch (error: any) {
       if (isApiError(error)) {

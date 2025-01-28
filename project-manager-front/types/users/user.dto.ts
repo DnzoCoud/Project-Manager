@@ -4,4 +4,11 @@ export interface UserDto {
   lastName: string;
   email: string;
   fullName: string;
+  role: RoleDto;
+}
+
+export interface RoleDto {
+  id: number;
+  name: string;
+  prefix: string;
 }
