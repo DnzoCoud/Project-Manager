@@ -5,4 +5,4 @@ export const TASKS_PATTERS = {
   STORE: 'tasks.store',
   UPDATE: 'tasks.update',
   DELETE: 'tasks.delete',
-};
+} as const;

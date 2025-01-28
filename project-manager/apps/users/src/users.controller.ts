@@ -35,4 +35,9 @@ export class UsersController {
   async findByIds(ids: number[]) {
     return (await this.usersService.findByIds(ids)).map(UserMapper.toDto);
   }
+
+  @MessagePattern(USERS_PATTERS.FIND_BY_ID)
+  async findById(id: number) {
+    return UserMapper.toDto(await this.usersService.findById(id));
+  }
 }

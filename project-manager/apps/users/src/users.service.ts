@@ -57,6 +57,13 @@ export class UsersService {
       },
     });
   }
+  findById(id: number) {
+    return this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
 
   async validatePassword({ password, hash }: ValidatePasswordDto) {
     return bcrypt.compare(password, hash);
