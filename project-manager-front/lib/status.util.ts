@@ -11,7 +11,7 @@ export const taskStatusLib = (status: string) => {
 };
 
 export const taskStatusLibWithType = (
-  status: string
+  status: string,
 ):
   | "success"
   | "default"

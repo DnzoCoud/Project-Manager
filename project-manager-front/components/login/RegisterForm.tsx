@@ -51,7 +51,7 @@ export default function RegisterForm({ className }: RegisterFormProps) {
     <form
       className={cn(
         " h-auto flex flex-col p-2 justify-center items-center w-[60%] gap-4",
-        className
+        className,
       )}
       onSubmit={handleSubmit}
     >

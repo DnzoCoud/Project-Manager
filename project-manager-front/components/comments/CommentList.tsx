@@ -33,7 +33,7 @@ export default function CommentList({ taskId }: CommentListProps) {
         acc[comment.taskId].push(comment);
         return acc;
       },
-      {} as Record<number, CommentDto[]>
+      {} as Record<number, CommentDto[]>,
     );
     if (groupedComments && groupedComments[taskId]) {
       setCommentsByTask(groupedComments[taskId]);

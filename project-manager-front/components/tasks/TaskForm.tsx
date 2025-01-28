@@ -27,7 +27,7 @@ interface TaskFormProps {
 export default function TaskForm({ id }: TaskFormProps) {
   const { id: projectId } = useParams();
   const [value, setValue] = React.useState(
-    parseDate(new Date().toISOString().split("T")[0])
+    parseDate(new Date().toISOString().split("T")[0]),
   );
   const { getAllUsers, loading: usersLoading } = useUser();
   const { getAllTeams, loading: teamsLoading } = useTeam();

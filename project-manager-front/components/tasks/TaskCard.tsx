@@ -1,4 +1,12 @@
-import { useModal } from "@/hooks/useModal";
+import AssignedGroups from "../AssignedGroups";
+import AssignedTeams from "../AssignedTeams";
+import MainList, { ListProps } from "../MainList";
+import MainModal from "../MainModal";
+import TaskForm from "./TaskForm";
+import StatusChangeButtons from "./StatusChangeButtons";
+import DeleteTask from "./DeleteTask";
+import TaskInfo from "./TaskInfo";
+import MainDrawer from "../MainDrawer";
 import { DateUtilities } from "@/lib/date.util";
 import { taskStatusLibWithType } from "@/lib/status.util";
 import { TaskDto } from "@/types/tasks/task.dto";
@@ -8,16 +16,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
 import { useMemo, useState } from "react";
 import { CiCalendar } from "react-icons/ci";
 import { SlOptionsVertical } from "react-icons/sl";
-import AssignedGroups from "../AssignedGroups";
-import AssignedTeams from "../AssignedTeams";
-import MainList, { ListProps } from "../MainList";
-import MainModal from "../MainModal";
-import TaskForm from "./TaskForm";
-import StatusChangeButtons from "./StatusChangeButtons";
-import DeleteTask from "./DeleteTask";
 import { CiCircleInfo } from "react-icons/ci";
-import MainDrawer from "../MainDrawer";
-import TaskInfo from "./TaskInfo";
+import { useModal } from "@/hooks/useModal";
 interface TaskCardProps {
   task: TaskDto;
 }
@@ -55,12 +55,12 @@ export default function TaskCard({ task }: TaskCardProps) {
   return (
     <>
       <Card className=" flex flex-col  relative shadow-none border-2 dark:border-slate-600">
-        <span
+        <button
           className="absolute right-12 top-2 size-6 flex items-center justify-center hover:bg-gray-basic rounded-full cursor-pointer"
           onClick={() => setIsInfoOpen(true)}
         >
           <CiCircleInfo className="text-2xl" />
-        </span>
+        </button>
         <Popover
           placement="right"
           isOpen={isPopoverOpen}

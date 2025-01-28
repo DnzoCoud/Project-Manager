@@ -1,7 +1,4 @@
-import {
-  Poppins as FontMono,
-  Inter as FontSans
-} from "next/font/google";
+import { Poppins as FontMono, Inter as FontSans } from "next/font/google";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -9,5 +6,7 @@ export const fontSans = FontSans({
 });
 
 export const fontMono = FontMono({
-  weight: "400",
+  subsets: ["latin"], // Especificamos el subconjunto
+  weight: ["400", "700"], // Especificamos los pesos que queremos usar
+  variable: "--font-mono", // Si quieres aplicar un variable CSS para la fuente
 });

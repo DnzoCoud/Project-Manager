@@ -23,7 +23,7 @@ export default function NavItem({
   const isActive = useActiveLink(path);
   const setActiveLink = useStore(
     useSidebarStore,
-    (state) => state.setActiveLink
+    (state) => state.setActiveLink,
   );
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function NavItem({
       <li
         className={cn(
           "size-11 rounded-xl group active:bg-gray-300 transition-all",
-          isActive && "bg-slate-800"
+          isActive && "bg-slate-800",
         )}
       >
         <Link
@@ -63,7 +63,7 @@ export default function NavItem({
                 className: cn(
                   "text-2xl text-muted-foreground group-hover:text-black",
                   iconClassName,
-                  isActive && "text-white"
+                  isActive && "text-white",
                 ),
               })}
             </>

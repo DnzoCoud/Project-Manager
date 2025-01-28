@@ -31,7 +31,7 @@ export default function CommentCard({ comment }: CommentCardProps) {
       <div
         className={cn(
           "w-auto rounded-tl-none bg-gray-300 text-black dark:text-white dark:bg-slate-900 p-2 rounded-xl",
-          itsMe && "rounded-tr-none"
+          itsMe && "rounded-tr-none",
         )}
       >
         {comment.comment}

@@ -32,7 +32,7 @@ export default function TaskListByProject({
         acc[task.projectId].push(task);
         return acc;
       },
-      {} as Record<number, TaskDto[]>
+      {} as Record<number, TaskDto[]>,
     );
 
     // Filtrar las tareas para el projectId actual

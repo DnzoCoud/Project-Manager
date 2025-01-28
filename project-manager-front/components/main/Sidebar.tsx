@@ -27,7 +27,7 @@ export default function Sidebar() {
     <aside
       className={cn(
         isSidebarOpen ? "w-72" : "w-16",
-        "flex flex-col justify-start items-center  transition py-6 gap-4 h-full border-r dark:border-slate-700"
+        "flex flex-col justify-start items-center  transition py-6 gap-4 h-full border-r dark:border-slate-700",
       )}
     >
       <AiOutlineProduct className="text-3xl" />

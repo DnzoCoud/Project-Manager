@@ -45,7 +45,7 @@ export default function TeamForm() {
   return (
     <form
       className={cn(
-        " h-auto flex flex-col p-2 justify-center items-center w-full gap-4"
+        " h-auto flex flex-col p-2 justify-center items-center w-full gap-4",
       )}
       onSubmit={handleSubmit}
     >
