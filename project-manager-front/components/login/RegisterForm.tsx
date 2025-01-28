@@ -1,7 +1,7 @@
 "use client";
 
-import { useFormContext } from "@/context/authContext";
 import { useUser } from "@/hooks/users/useUser";
+import { cn } from "@/lib/class-merge.util";
 import { useUserStore } from "@/stores/user.store";
 import { CreateUserDto, RolePrefix } from "@/types/users/create-user.dto";
 import { Avatar } from "@heroui/avatar";
@@ -12,7 +12,11 @@ import React, { useEffect, useState } from "react";
 import { GrFormNext } from "react-icons/gr";
 import { toast } from "sonner";
 
-export default function RegisterForm() {
+interface RegisterFormProps {
+  className?: string;
+}
+
+export default function RegisterForm({ className }: RegisterFormProps) {
   const [registerData, setRegisterData] = useState<CreateUserDto>({
     firstName: "",
     lastName: "",
@@ -45,7 +49,10 @@ export default function RegisterForm() {
 
   return (
     <form
-      className=" h-auto flex flex-col p-2 justify-center items-center w-[60%] gap-4"
+      className={cn(
+        " h-auto flex flex-col p-2 justify-center items-center w-[60%] gap-4",
+        className
+      )}
       onSubmit={handleSubmit}
     >
       <Input
@@ -81,9 +88,10 @@ export default function RegisterForm() {
         isRequired
       />
       <Select
-        label="Asignar tarea a ciertas personas"
-        placeholder="Asigna a una persona"
+        label="Asignar el rol"
+        placeholder="Asigna un rol al usuario"
         selectionMode="single"
+        isRequired
         isLoading={loading}
         items={roles}
         onChange={(e) => {
