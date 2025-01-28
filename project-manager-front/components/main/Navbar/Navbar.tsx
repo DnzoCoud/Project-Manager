@@ -23,7 +23,7 @@ export default function Navbar() {
         <div className="flex items-center ">
           <Button
             isIconOnly
-            variant="ghost"
+            variant={theme !== "light" ? "ghost" : "solid"}
             color="warning"
             onPress={() => setTheme("light")}
             size="sm"
@@ -33,7 +33,7 @@ export default function Navbar() {
           </Button>
           <Button
             isIconOnly
-            variant="ghost"
+            variant={theme !== "dark" ? "ghost" : "solid"}
             color="secondary"
             onPress={() => setTheme("dark")}
             size="sm"
