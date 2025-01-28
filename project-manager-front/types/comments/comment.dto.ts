@@ -1,6 +1,6 @@
-import { UserDto } from '../users/user.dto';
+import { UserDto } from "../users/user.dto";
 
-export class CommentDto {
+export interface CommentDto {
   id: number;
   taskId: number;
   user: UserDto;

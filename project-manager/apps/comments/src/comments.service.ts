@@ -38,6 +38,7 @@ export class CommentsService {
     const commentsWithUsers: CommentDto[] = comments.map((comment) => ({
       id: comment.id,
       comment: comment.comment,
+      taskId: comment.taskId,
       createdAt: comment.created_at.toISOString(),
       user: users.find((user) => user.id === +comment.userId),
     }));
@@ -62,6 +63,7 @@ export class CommentsService {
     const commentWithUsers: CommentDto = {
       id: savedComment.id,
       comment: savedComment.comment,
+      taskId: savedComment.taskId,
       createdAt: savedComment.created_at.toISOString(),
       user: user,
     };

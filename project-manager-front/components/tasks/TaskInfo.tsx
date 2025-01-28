@@ -1,10 +1,10 @@
 import { taskStatusLibWithType } from "@/lib/status.util";
 import { TaskDto } from "@/types/tasks/task.dto";
 import { Chip } from "@heroui/chip";
-import { Textarea } from "@heroui/input";
-import React from "react";
-import StatusChangeButtons from "./StatusChangeButtons";
 import CommentList from "../comments/CommentList";
+import StatusChangeButtons from "./StatusChangeButtons";
+import { useEffect } from "react";
+import { useComment } from "@/hooks/comments/useComment";
 
 interface TaskInfoProps {
   task: TaskDto;
@@ -20,7 +20,7 @@ export default function TaskInfo({ task }: TaskInfoProps) {
       </div>
       <p className="text-muted-foreground text-sm">{task.description}</p>
       <StatusChangeButtons task={task} />
-      <CommentList />
+      <CommentList taskId={task.id} />
     </div>
   );
 }
