@@ -76,4 +76,25 @@ export class TaskService {
       } as ApiErrorResponse;
     }
   }
+
+  async deleteTask(taskId: number) {
+    try {
+      await apiInstance.delete(`/tasks/${taskId}`);
+      return true;
+    } catch (error: any) {
+      if (isApiError(error)) {
+        throw error;
+      }
+      if (error.response?.data && isApiError(error.response.data)) {
+        throw error.response.data;
+      }
+      throw {
+        status: "error",
+        message: "Error en el sistema",
+        data: null,
+        error: error.message || "Error desconocido",
+        statusCode: 500,
+      } as ApiErrorResponse;
+    }
+  }
 }

@@ -5,7 +5,7 @@ import { TaskDto } from "@/types/tasks/task.dto";
 import { Card } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { CiCalendar } from "react-icons/ci";
 import { SlOptionsVertical } from "react-icons/sl";
 import AssignedGroups from "../AssignedGroups";
@@ -14,11 +14,16 @@ import MainList, { ListProps } from "../MainList";
 import MainModal from "../MainModal";
 import TaskForm from "./TaskForm";
 import StatusChangeButtons from "./StatusChangeButtons";
+import DeleteTask from "./DeleteTask";
 interface TaskCardProps {
   task: TaskDto;
 }
 export default function TaskCard({ task }: TaskCardProps) {
   const { isOpen, open, close } = useModal();
+
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isDeletePopoverOpen, setIsDeletePopoverOpen] = useState(false);
+
 
   const listOptions = useMemo(() => {
     const list: ListProps[] = [
@@ -26,12 +31,19 @@ export default function TaskCard({ task }: TaskCardProps) {
         label: "Editar",
         key: "edit",
         color: "default",
-        onPress: () => open(),
+        onPress: () => {
+        open();
+        setIsPopoverOpen(false);
+      },
       },
       {
         label: "Eliminar",
         key: "delete",
         color: "danger",
+        onPress: () => {
+          setIsDeletePopoverOpen(true)
+          setIsPopoverOpen(false);
+        },
       },
     ];
     return list;
@@ -40,7 +52,7 @@ export default function TaskCard({ task }: TaskCardProps) {
   return (
     <>
       <Card className=" flex flex-col  relative shadow-none border-2 dark:border-slate-600">
-        <Popover placement="right">
+        <Popover placement="right" isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger>
             <span className="absolute right-3 top-2 size-6 flex items-center justify-center hover:bg-gray-basic rounded-full cursor-pointer">
               <SlOptionsVertical />
@@ -90,6 +102,12 @@ export default function TaskCard({ task }: TaskCardProps) {
         onOpenChange={close}
         title="Editar Tarea"
         content={<TaskForm id={task.id} />}
+      />
+      <MainModal
+        isOpen={isDeletePopoverOpen}
+        onOpenChange={() => setIsDeletePopoverOpen(false)}
+        title="Eliminar Tarea"
+        content={<DeleteTask taskId={task.id} onCancel={() => setIsDeletePopoverOpen(false)} />}
       />
     </>
   );

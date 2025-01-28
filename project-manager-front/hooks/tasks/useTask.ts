@@ -8,7 +8,7 @@ import { toast } from "sonner";
 export const useTask = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ApiErrorResponse | null>(null);
-  const { setTasks, updateTask: storeUpdateTask } = useTaskStore();
+  const { setTasks, updateTask: storeUpdateTask, removeTask } = useTaskStore();
   const taskService = new TaskService();
 
   const getAllByProject = async (projectId: number) => {
@@ -61,6 +61,21 @@ export const useTask = () => {
       setLoading(false);
     }
   };
+  const deleteTask = async (id: number) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await taskService.deleteTask(id);
+      removeTask(id);
+      return true;
+    } catch (error: any) {
+      setError(error);
+      toast.error(error.error);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
     getAllByProject,
@@ -68,5 +83,6 @@ export const useTask = () => {
     error,
     getById,
     updateTask,
+    deleteTask,
   };
 };

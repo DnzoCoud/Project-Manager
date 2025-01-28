@@ -28,10 +28,10 @@ export default function StatusChangeButtons({
           variant="bordered"
           startContent={<IoIosArrowRoundBack />}
           onPress={() => {
-            if(task.status === TaskEstatusEnum.PROGRESS){
-                handleChangeStatus(TaskEstatusEnum.TO_DO)
-            }else{
-                handleChangeStatus(TaskEstatusEnum.PROGRESS)
+            if (task.status === TaskEstatusEnum.PROGRESS) {
+              handleChangeStatus(TaskEstatusEnum.TO_DO);
+            } else {
+              handleChangeStatus(TaskEstatusEnum.PROGRESS);
             }
           }}
         >
