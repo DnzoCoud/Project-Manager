@@ -1,19 +1,19 @@
+import { useModal } from "@/hooks/useModal";
 import { DateUtilities } from "@/lib/date.util";
+import { taskStatusLibWithType } from "@/lib/status.util";
 import { TaskDto } from "@/types/tasks/task.dto";
 import { Card } from "@heroui/card";
+import { Chip } from "@heroui/chip";
 import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
 import { useMemo } from "react";
 import { CiCalendar } from "react-icons/ci";
 import { SlOptionsVertical } from "react-icons/sl";
 import AssignedGroups from "../AssignedGroups";
-import MainList, { ListProps } from "../MainList";
-import { Chip } from "@heroui/chip";
 import AssignedTeams from "../AssignedTeams";
-import { taskStatusLibWithType } from "@/lib/status.util";
+import MainList, { ListProps } from "../MainList";
 import MainModal from "../MainModal";
-import { useModal } from "@/hooks/useModal";
 import TaskForm from "./TaskForm";
-import { Button } from "@heroui/button";
+import StatusChangeButtons from "./StatusChangeButtons";
 interface TaskCardProps {
   task: TaskDto;
 }
@@ -39,7 +39,7 @@ export default function TaskCard({ task }: TaskCardProps) {
 
   return (
     <>
-      <Card className=" flex flex-col  relative shadow-none border-2">
+      <Card className=" flex flex-col  relative shadow-none border-2 dark:border-slate-600">
         <Popover placement="right">
           <PopoverTrigger>
             <span className="absolute right-3 top-2 size-6 flex items-center justify-center hover:bg-gray-basic rounded-full cursor-pointer">
@@ -50,7 +50,7 @@ export default function TaskCard({ task }: TaskCardProps) {
             <MainList items={listOptions} />
           </PopoverContent>
         </Popover>
-        <span className="space-y-1 p-2 h-full bg-gradient-to-tr from-slate-50 from-70% to-purple-100">
+        <span className="space-y-1 p-2 h-full bg-gradient-to-tr dark:from-slate-800 from-slate-50 from-70% to-purple-100">
           <Chip color={taskStatusLibWithType(task.status)} variant="bordered">
             {task.status}
           </Chip>
@@ -58,10 +58,7 @@ export default function TaskCard({ task }: TaskCardProps) {
             #{task.id} {task.title}
           </h1>
           <p className="text-muted-foreground text-xs">{task.description}</p>
-          <div className="w-full flex items-center justify-between gap-4">
-            <Button className="w-1/2">sdasd</Button>
-            <Button className="w-1/2">Poner En progreso</Button>
-          </div>
+          <StatusChangeButtons task={task}/>
         </span>
         <div className="flex items-center justify-between border-t p-2">
           <div className="flex items-center flex-1 justify-start gap-8">

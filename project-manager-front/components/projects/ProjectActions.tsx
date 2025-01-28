@@ -11,7 +11,7 @@ export default function ProjectActions() {
     <>
       <div className="flex items-center justify-around my-6">
         <button
-          className="bg-white border w-52 h-auto rounded-lg flex items-end justify-between p-2 hover:bg-gray-basic active:bg-gray-300 transition"
+          className="border dark:border-slate-700 w-52 h-auto rounded-lg flex items-end justify-between p-2 hover:bg-gray-basic dark:hover:bg-gray-800 transition"
           onClick={onOpen}
         >
           <span className="bg-slate-800 size-12 flex items-center justify-center rounded-xl">
